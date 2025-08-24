@@ -16,8 +16,8 @@ export default function Portfolio() {
       category: 'Mechanical Design',
       software: 'SOLIDWORKS',
       description: 'Complete 3D modeling and assembly design of a hydrogen-powered motorcycle with detailed engineering analysis.',
-      image: '/images/projects/hydrogen-bike.jpg',
-      modelUrl: 'https://modelviewer.dev/shared-assets/models/Astronaut.glb', // Test model for now
+      image: null, // No image available, will show 3D model instead
+      modelUrl: '/models/hydrogen-bike.glb',
       videoUrl: 'https://www.youtube.com/watch?v=example1',
       tags: ['Assembly Design', 'Mechanical', 'Engineering Analysis'],
       featured: true,
