@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 
 export default function ModelViewer({ 
@@ -13,25 +13,82 @@ export default function ModelViewer({
   showControls = true
 }) {
   const modelRef = useRef(null)
+  const [isLoaded, setIsLoaded] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
+  const [hasError, setHasError] = useState(false)
 
   useEffect(() => {
     // Load model-viewer script if not already loaded
-    if (typeof window !== 'undefined' && !window.customElements.get('model-viewer')) {
-      const script = document.createElement('script')
-      script.src = 'https://unpkg.com/@google/model-viewer@^3.4.0/dist/model-viewer.min.js'
-      script.type = 'module'
-      document.head.appendChild(script)
+    const loadModelViewerScript = async () => {
+      if (typeof window !== 'undefined' && !window.customElements.get('model-viewer')) {
+        try {
+          const script = document.createElement('script')
+          script.src = 'https://unpkg.com/@google/model-viewer@^3.4.0/dist/model-viewer.min.js'
+          script.type = 'module'
+          
+          script.onload = () => {
+            console.log('Model-viewer script loaded successfully')
+          }
+          
+          script.onerror = () => {
+            console.error('Failed to load model-viewer script')
+            setHasError(true)
+          }
+          
+          document.head.appendChild(script)
+        } catch (error) {
+          console.error('Error loading model-viewer script:', error)
+          setHasError(true)
+        }
+      }
     }
+
+    loadModelViewerScript()
   }, [])
 
   const handleModelLoad = () => {
-    if (modelRef.current) {
-      console.log('3D model loaded successfully')
-    }
+    console.log('3D model loaded successfully:', src)
+    setIsLoaded(true)
+    setIsLoading(false)
+    setHasError(false)
   }
 
   const handleModelError = (error) => {
     console.error('Error loading 3D model:', error)
+    setIsLoading(false)
+    setHasError(true)
+  }
+
+  const handleProgress = (event) => {
+    const progress = event.detail.totalProgress
+    console.log('Loading progress:', progress)
+  }
+
+  // Check if model-viewer is available
+  const isModelViewerAvailable = typeof window !== 'undefined' && window.customElements.get('model-viewer')
+
+  if (hasError || !isModelViewerAvailable) {
+    return (
+      <div className={`relative ${className}`}>
+        <div className="w-full h-64 bg-gray-100 dark:bg-gray-800 rounded-lg flex items-center justify-center">
+          <div className="text-center">
+            <div className="w-16 h-16 bg-gray-300 dark:bg-gray-600 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg className="w-8 h-8 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+              </svg>
+            </div>
+            <p className="text-gray-600 dark:text-gray-400 mb-2">3D model viewer not available</p>
+            <a 
+              href={src} 
+              download 
+              className="text-primary hover:text-primary/80 font-medium text-sm"
+            >
+              Download Model
+            </a>
+          </div>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -63,6 +120,7 @@ export default function ModelViewer({
         ar-button
         onLoad={handleModelLoad}
         onError={handleModelError}
+        onProgress={handleProgress}
         className="w-full h-full rounded-lg"
         style={{
           '--poster-color': 'transparent',
@@ -71,15 +129,21 @@ export default function ModelViewer({
         }}
       >
         {/* Loading indicator */}
-        <div slot="progress-bar" className="progress-bar">
-          <div className="progress-bar-fill"></div>
-        </div>
+        {isLoading && (
+          <div slot="progress-bar" className="progress-bar">
+            <div className="progress-bar-fill"></div>
+          </div>
+        )}
 
         {/* Custom controls */}
-        {showControls && (
+        {showControls && isLoaded && (
           <div className="absolute bottom-4 right-4 flex flex-col space-y-2">
             <button
-              onClick={() => modelRef.current?.resetCamera()}
+              onClick={() => {
+                if (modelRef.current) {
+                  modelRef.current.cameraOrbit = '45deg 55deg 2.5m'
+                }
+              }}
               className="w-10 h-10 bg-white/80 backdrop-blur-sm rounded-lg flex items-center justify-center hover:bg-white transition-colors duration-200 shadow-lg"
               title="Reset Camera"
             >
@@ -109,25 +173,6 @@ export default function ModelViewer({
           View in AR
         </button>
       </model-viewer>
-
-      {/* Fallback for unsupported browsers */}
-      <div className="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-800 rounded-lg" style={{ display: 'none' }}>
-        <div className="text-center">
-          <div className="w-16 h-16 bg-gray-300 dark:bg-gray-600 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg className="w-8 h-8 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-            </svg>
-          </div>
-          <p className="text-gray-600 dark:text-gray-400">3D model viewer not supported</p>
-          <a 
-            href={src} 
-            download 
-            className="text-primary hover:text-primary/80 font-medium mt-2 inline-block"
-          >
-            Download Model
-          </a>
-        </div>
-      </div>
 
       <style jsx>{`
         model-viewer {

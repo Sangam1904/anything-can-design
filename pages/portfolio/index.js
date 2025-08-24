@@ -17,7 +17,7 @@ export default function Portfolio() {
       software: 'SOLIDWORKS',
       description: 'Complete 3D modeling and assembly design of a hydrogen-powered motorcycle with detailed engineering analysis.',
       image: '/images/projects/hydrogen-bike.jpg',
-      modelUrl: '/models/hydrogen-bike.glb',
+      modelUrl: 'https://modelviewer.dev/shared-assets/models/Astronaut.glb', // Test model for now
       videoUrl: 'https://www.youtube.com/watch?v=example1',
       tags: ['Assembly Design', 'Mechanical', 'Engineering Analysis'],
       featured: true,
@@ -30,7 +30,7 @@ export default function Portfolio() {
       software: 'CATIA',
       description: 'Innovative solar panel floating system design with structural analysis and optimization.',
       image: '/images/projects/solar-plant.jpg',
-      modelUrl: '/models/solar-plant.glb',
+      modelUrl: 'https://modelviewer.dev/shared-assets/models/Astronaut.glb', // Test model for now
       videoUrl: 'https://www.youtube.com/watch?v=example2',
       tags: ['Structural Analysis', 'Renewable Energy', 'Optimization'],
       featured: true,
@@ -43,7 +43,7 @@ export default function Portfolio() {
       software: 'SOLIDWORKS',
       description: 'Complete drone design with aerodynamic optimization and manufacturing-ready components.',
       image: '/images/projects/drone.jpg',
-      modelUrl: '/models/drone.glb',
+      modelUrl: 'https://modelviewer.dev/shared-assets/models/Astronaut.glb', // Test model for now
       videoUrl: 'https://www.youtube.com/watch?v=example3',
       tags: ['Aerodynamics', 'Product Design', 'Manufacturing'],
       featured: true,
@@ -56,7 +56,7 @@ export default function Portfolio() {
       software: 'CATIA',
       description: 'High-end automotive surface modeling with complex curvature and aesthetic design.',
       image: '/images/projects/car-surfacing.jpg',
-      modelUrl: '/models/car-surfacing.glb',
+      modelUrl: 'https://modelviewer.dev/shared-assets/models/Astronaut.glb', // Test model for now
       videoUrl: 'https://www.youtube.com/watch?v=example4',
       tags: ['Surface Modeling', 'Automotive', 'Aesthetic Design'],
       featured: true,
@@ -69,7 +69,7 @@ export default function Portfolio() {
       software: 'SOLIDWORKS',
       description: 'IoT smart home device with ergonomic design and user-friendly interface.',
       image: '/images/projects/smart-device.jpg',
-      modelUrl: '/models/smart-device.glb',
+      modelUrl: 'https://modelviewer.dev/shared-assets/models/Astronaut.glb', // Test model for now
       tags: ['IoT', 'Ergonomic Design', 'User Interface'],
       featured: false,
       year: 2023
@@ -81,7 +81,7 @@ export default function Portfolio() {
       software: 'CATIA',
       description: 'Precision industrial robot arm with advanced kinematics and control systems.',
       image: '/images/projects/robot-arm.jpg',
-      modelUrl: '/models/robot-arm.glb',
+      modelUrl: 'https://modelviewer.dev/shared-assets/models/Astronaut.glb', // Test model for now
       tags: ['Robotics', 'Kinematics', 'Precision Engineering'],
       featured: false,
       year: 2023
@@ -210,7 +210,9 @@ export default function Portfolio() {
                         src={project.modelUrl}
                         alt={project.title}
                         className="h-full"
-                        showControls={false}
+                        showControls={true}
+                        autoRotate={true}
+                        cameraControls={true}
                       />
                     ) : (
                       <div className="absolute inset-0 bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">

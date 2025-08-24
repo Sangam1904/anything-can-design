@@ -5,19 +5,19 @@ export default function Stats() {
   const stats = [
     {
       icon: Users,
-      number: '50+',
+      number: '10+',
       label: 'Happy Clients',
       description: 'Satisfied customers worldwide'
     },
     {
       icon: Award,
-      number: '100+',
+      number: '00+',
       label: 'Projects Completed',
       description: 'Successfully delivered designs'
     },
     {
       icon: Clock,
-      number: '5+',
+      number: '2+',
       label: 'Years Experience',
       description: 'Professional CAD expertise'
     },
