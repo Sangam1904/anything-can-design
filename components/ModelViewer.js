@@ -16,30 +16,50 @@ export default function ModelViewer({
   const [isLoaded, setIsLoaded] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [hasError, setHasError] = useState(false)
+  const [scriptLoaded, setScriptLoaded] = useState(false)
 
   useEffect(() => {
     // Load model-viewer script if not already loaded
     const loadModelViewerScript = async () => {
-      if (typeof window !== 'undefined' && !window.customElements.get('model-viewer')) {
-        try {
-          const script = document.createElement('script')
-          script.src = 'https://unpkg.com/@google/model-viewer@^3.4.0/dist/model-viewer.min.js'
-          script.type = 'module'
-          
-          script.onload = () => {
-            console.log('Model-viewer script loaded successfully')
+      if (typeof window === 'undefined') return
+
+      // Check if already loaded
+      if (window.customElements.get('model-viewer')) {
+        setScriptLoaded(true)
+        return
+      }
+
+      // Check if script is already being loaded
+      if (document.querySelector('script[src*="model-viewer"]')) {
+        // Wait for existing script to load
+        const checkScript = setInterval(() => {
+          if (window.customElements.get('model-viewer')) {
+            setScriptLoaded(true)
+            clearInterval(checkScript)
           }
-          
-          script.onerror = () => {
-            console.error('Failed to load model-viewer script')
-            setHasError(true)
-          }
-          
-          document.head.appendChild(script)
-        } catch (error) {
-          console.error('Error loading model-viewer script:', error)
+        }, 100)
+        return
+      }
+
+      try {
+        const script = document.createElement('script')
+        script.src = 'https://unpkg.com/@google/model-viewer@3.4.0/dist/model-viewer.min.js'
+        script.type = 'module'
+        
+        script.onload = () => {
+          console.log('Model-viewer script loaded successfully')
+          setScriptLoaded(true)
+        }
+        
+        script.onerror = () => {
+          console.error('Failed to load model-viewer script')
           setHasError(true)
         }
+        
+        document.head.appendChild(script)
+      } catch (error) {
+        console.error('Error loading model-viewer script:', error)
+        setHasError(true)
       }
     }
 
@@ -64,10 +84,22 @@ export default function ModelViewer({
     console.log('Loading progress:', progress)
   }
 
-  // Check if model-viewer is available
-  const isModelViewerAvailable = typeof window !== 'undefined' && window.customElements.get('model-viewer')
+  // Show loading state while script is loading
+  if (!scriptLoaded && !hasError) {
+    return (
+      <div className={`relative ${className}`}>
+        <div className="w-full h-64 bg-gray-100 dark:bg-gray-800 rounded-lg flex items-center justify-center">
+          <div className="text-center">
+            <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+            <p className="text-gray-600 dark:text-gray-400">Loading 3D viewer...</p>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
-  if (hasError || !isModelViewerAvailable) {
+  // Show error state if script failed to load
+  if (hasError || !scriptLoaded) {
     return (
       <div className={`relative ${className}`}>
         <div className="w-full h-64 bg-gray-100 dark:bg-gray-800 rounded-lg flex items-center justify-center">
