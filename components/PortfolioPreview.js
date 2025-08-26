@@ -1,50 +1,40 @@
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowRight, ExternalLink, Download } from 'lucide-react'
+import { getFeaturedProjects } from '../utils/projectDiscovery'
+import { useState } from 'react'
+import ProjectDetailModal from './ProjectDetailModal'
 
 export default function PortfolioPreview() {
-  const featuredProjects = [
-    {
-      id: 1,
-      title: 'Hydrogen Bike Design',
-      category: 'Mechanical Design',
-      description: 'Complete 3D modeling and assembly design of a hydrogen-powered motorcycle with detailed engineering analysis.',
-      image: '/images/projects/hydrogen-bike.jpg',
-      modelUrl: '/models/hydrogen-bike.glb',
-      tags: ['SOLIDWORKS', 'Assembly Design', 'Mechanical'],
-      featured: true
-    },
-    {
-      id: 2,
-      title: 'Solar Floating Plant',
-      category: 'Industrial Design',
-      description: 'Innovative solar panel floating system design with structural analysis and optimization.',
-      image: '/images/projects/solar-plant.jpg',
-      modelUrl: '/models/solar-plant.glb',
-      tags: ['CATIA', 'Structural Analysis', 'Renewable Energy'],
-      featured: true
-    },
-    {
-      id: 3,
-      title: 'Drone Assembly',
-      category: 'Product Design',
-      description: 'Complete drone design with aerodynamic optimization and manufacturing-ready components.',
-      image: '/images/projects/drone.jpg',
-      modelUrl: '/models/drone.glb',
-      tags: ['SOLIDWORKS', 'Aerodynamics', 'Product Design'],
-      featured: true
-    },
-    {
-      id: 4,
-      title: 'Luxury Car Surfacing',
-      category: 'Surface Modeling',
-      description: 'High-end automotive surface modeling with complex curvature and aesthetic design.',
-      image: '/images/projects/car-surfacing.jpg',
-      modelUrl: '/models/car-surfacing.glb',
-      tags: ['CATIA', 'Surface Modeling', 'Automotive'],
-      featured: true
-    }
-  ]
+  const featuredProjects = getFeaturedProjects()
+  const [selectedProject, setSelectedProject] = useState(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  // Modal handlers
+  const openProjectModal = (project) => {
+    setSelectedProject(project)
+    setIsModalOpen(true)
+  }
+
+  const closeProjectModal = () => {
+    setIsModalOpen(false)
+    setSelectedProject(null)
+  }
+
+  const nextProject = () => {
+    const currentIndex = featuredProjects.findIndex(p => p.id === selectedProject.id)
+    const nextIndex = (currentIndex + 1) % featuredProjects.length
+    setSelectedProject(featuredProjects[nextIndex])
+  }
+
+  const previousProject = () => {
+    const currentIndex = featuredProjects.findIndex(p => p.id === selectedProject.id)
+    const prevIndex = currentIndex === 0 ? featuredProjects.length - 1 : currentIndex - 1
+    setSelectedProject(featuredProjects[prevIndex])
+  }
+
+  const hasNext = selectedProject && featuredProjects.length > 1
+  const hasPrevious = selectedProject && featuredProjects.length > 1
 
   return (
     <section className="section-padding bg-gray-50 dark:bg-gray-800">
@@ -93,13 +83,13 @@ export default function PortfolioPreview() {
                 {/* Overlay */}
                 <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                   <div className="flex space-x-4">
-                    <Link 
-                      href={`/portfolio/${project.id}`}
+                    <button 
+                      onClick={() => openProjectModal(project)}
                       className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-colors duration-200"
                     >
                       <ExternalLink className="w-5 h-5 text-white" />
-                    </Link>
-                    {project.modelUrl && (
+                    </button>
+                    {project.modelUrl && project.hasModel && (
                       <a 
                         href={project.modelUrl}
                         download
@@ -147,15 +137,15 @@ export default function PortfolioPreview() {
 
                 {/* Action Buttons */}
                 <div className="flex items-center justify-between">
-                  <Link 
-                    href={`/portfolio/${project.id}`}
+                  <button 
+                    onClick={() => openProjectModal(project)}
                     className="inline-flex items-center text-primary hover:text-primary/80 font-medium transition-colors duration-200 group"
                   >
                     View Details
                     <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-200" />
-                  </Link>
+                  </button>
                   
-                  {project.modelUrl && (
+                  {project.modelUrl && project.hasModel && (
                     <a 
                       href={project.modelUrl}
                       download
@@ -185,6 +175,17 @@ export default function PortfolioPreview() {
           </Link>
         </motion.div>
       </div>
+
+      {/* Project Detail Modal */}
+      <ProjectDetailModal
+        project={selectedProject}
+        isOpen={isModalOpen}
+        onClose={closeProjectModal}
+        onNext={nextProject}
+        onPrevious={previousProject}
+        hasNext={hasNext}
+        hasPrevious={hasPrevious}
+      />
     </section>
   )
 }

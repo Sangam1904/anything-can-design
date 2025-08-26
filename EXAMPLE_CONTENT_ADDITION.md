@@ -88,7 +88,7 @@ const team = [
     linkedin: 'https://linkedin.com/in/sangam'
   },
   {
-    name: 'Anjali',
+    name: 'Abhishek Raut',
     role: 'CAD Specialist',
     image: '/images/team/anjali.jpg', // Add your photo here
     bio: 'Specialized in mechanical design and engineering analysis.',

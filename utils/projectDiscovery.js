@@ -1,0 +1,336 @@
+// Client-safe project discovery system
+// This version doesn't use Node.js modules and works in both server and client contexts
+
+// Supported 3D model file extensions
+const SUPPORTED_MODEL_EXTENSIONS = ['.gltf', '.glb', '.obj', '.fbx', '.dae', '.3ds']
+
+// Project metadata structure
+const PROJECT_METADATA = {
+  // Hydrogen Bike - existing project
+  'hydrogen-bike': {
+    id: 1,
+    title: 'Hydrogen Bike Design',
+    category: 'Mechanical Design',
+    software: 'SOLIDWORKS',
+    description: 'Complete 3D modeling and assembly design of a hydrogen-powered motorcycle with detailed engineering analysis.',
+    image: '/images/projects/hydrogen-bike.jpg',
+    videoUrl: 'https://www.youtube.com/watch?v=example1',
+    tags: ['Assembly Design', 'Mechanical', 'Engineering Analysis'],
+    featured: true,
+    year: 2024,
+    specifications: {
+      complexity: 'High',
+      parts: '150+ components',
+      analysis: 'Structural & Thermal',
+      manufacturing: 'Production Ready'
+    },
+    technicalDetails: [
+      'Complete assembly modeling with 150+ components',
+      'Structural analysis for load-bearing components',
+      'Thermal analysis for hydrogen storage system',
+      'Manufacturing-ready design with detailed drawings',
+      'Ergonomic design optimization for rider comfort'
+    ]
+  },
+  
+  // Solar Plant - existing project
+  'solar-plant': {
+    id: 2,
+    title: 'Solar Floating Plant',
+    category: 'Industrial Design',
+    software: 'CATIA',
+    description: 'Innovative solar panel floating system design with structural analysis and optimization.',
+    image: '/images/projects/solar-plant.jpg',
+    videoUrl: 'https://www.youtube.com/watch?v=example2',
+    tags: ['Structural Analysis', 'Renewable Energy', 'Optimization'],
+    featured: true,
+    year: 2024,
+    specifications: {
+      complexity: 'High',
+      scale: 'Industrial',
+      analysis: 'Structural & Environmental',
+      deployment: 'Water-based'
+    },
+    technicalDetails: [
+      'Floating platform design for solar panel deployment',
+      'Structural analysis for water environment loads',
+      'Environmental impact optimization',
+      'Modular design for scalable deployment',
+      'Weather-resistant engineering solutions'
+    ]
+  },
+  
+  // Drone Assembly - existing project
+  'drone': {
+    id: 3,
+    title: 'Drone Assembly',
+    category: 'Product Design',
+    software: 'SOLIDWORKS',
+    description: 'Complete drone design with aerodynamic optimization and manufacturing-ready components.',
+    image: '/images/projects/drone.jpg',
+    videoUrl: 'https://www.youtube.com/watch?v=example3',
+    tags: ['Aerodynamics', 'Product Design', 'Manufacturing'],
+    featured: true,
+    year: 2023,
+    specifications: {
+      complexity: 'Medium-High',
+      parts: '80+ components',
+      analysis: 'Aerodynamic & Structural',
+      application: 'Commercial UAV'
+    },
+    technicalDetails: [
+      'Aerodynamic optimization for flight efficiency',
+      'Lightweight composite material selection',
+      'Modular design for easy maintenance',
+      'Payload optimization and balance',
+      'Manufacturing-ready component design'
+    ]
+  },
+  
+  // Car Surfacing - existing project
+  'car-surfacing': {
+    id: 4,
+    title: 'Luxury Car Surfacing',
+    category: 'Surface Modeling',
+    software: 'CATIA',
+    description: 'High-end automotive surface modeling with complex curvature and aesthetic design.',
+    image: '/images/projects/car-surfacing.jpg',
+    videoUrl: 'https://www.youtube.com/watch?v=example4',
+    tags: ['Surface Modeling', 'Automotive', 'Aesthetic Design'],
+    featured: true,
+    year: 2023,
+    specifications: {
+      complexity: 'Very High',
+      surfaces: 'Class A',
+      analysis: 'Aesthetic & Aerodynamic',
+      industry: 'Automotive'
+    },
+    technicalDetails: [
+      'Class A surface modeling for automotive standards',
+      'Complex curvature design for aerodynamic efficiency',
+      'Aesthetic optimization for luxury market',
+      'Manufacturing feasibility analysis',
+      'Surface continuity and quality validation'
+    ]
+  },
+  
+  // Smart Home Device - existing project
+  'smart-device': {
+    id: 5,
+    title: 'Smart Home Device',
+    category: 'Product Design',
+    software: 'SOLIDWORKS',
+    description: 'IoT smart home device with ergonomic design and user-friendly interface.',
+    image: '/images/projects/smart-device.jpg',
+    videoUrl: 'https://www.youtube.com/watch?v=example5',
+    tags: ['IoT', 'Ergonomic Design', 'User Interface'],
+    featured: false,
+    year: 2023,
+    specifications: {
+      complexity: 'Medium',
+      parts: '25+ components',
+      analysis: 'Ergonomic & Thermal',
+      market: 'Consumer IoT'
+    },
+    technicalDetails: [
+      'Ergonomic design for user comfort',
+      'Thermal management for electronic components',
+      'User interface integration design',
+      'Manufacturing cost optimization',
+      'Assembly-friendly design approach'
+    ]
+  },
+  
+  // Robot Arm - existing project
+  'robot-arm': {
+    id: 6,
+    title: 'Industrial Robot Arm',
+    category: 'Mechanical Design',
+    software: 'CATIA',
+    description: 'Precision industrial robot arm with advanced kinematics and control systems.',
+    image: '/images/projects/robot-arm.jpg',
+    videoUrl: 'https://www.youtube.com/watch?v=example6',
+    tags: ['Robotics', 'Kinematics', 'Precision Engineering'],
+    featured: false,
+    year: 2023,
+    specifications: {
+      complexity: 'Very High',
+      parts: '200+ components',
+      analysis: 'Kinematic & Structural',
+      application: 'Industrial Automation'
+    },
+    technicalDetails: [
+      'Advanced kinematic chain design',
+      'Precision bearing and joint optimization',
+      'Structural analysis for load capacity',
+      'Control system integration design',
+      'Safety and reliability engineering'
+    ]
+  }
+}
+
+// Known model files (manually maintained)
+const KNOWN_MODEL_FILES = [
+  {
+    filename: 'hydrogen-bike.glb',
+    name: 'hydrogen-bike',
+    extension: '.glb',
+    path: '/models/hydrogen-bike.glb',
+    size: 73728000 // 70.3 MB in bytes
+  }
+]
+
+/**
+ * Get known model files (client-safe version)
+ * @returns {Array} Array of known model files
+ */
+export function discoverModelFiles() {
+  return KNOWN_MODEL_FILES
+}
+
+/**
+ * Generate dynamic project data by combining metadata with known models
+ * @returns {Array} Array of complete project objects
+ */
+export function generateProjectData() {
+  const modelFiles = discoverModelFiles()
+  const projects = []
+  
+  // Process each model file and match with metadata
+  modelFiles.forEach(modelFile => {
+    const projectKey = modelFile.name.toLowerCase().replace(/[^a-z0-9]/g, '-')
+    const metadata = PROJECT_METADATA[projectKey]
+    
+    if (metadata) {
+      // Found matching metadata, create complete project object
+      projects.push({
+        ...metadata,
+        modelFile,
+        modelUrl: modelFile.path,
+        hasModel: true
+      })
+    } else {
+      // No metadata found, create generic project object
+      const genericProject = {
+        id: projects.length + 1,
+        title: modelFile.name.split('-').map(word => 
+          word.charAt(0).toUpperCase() + word.slice(1)
+        ).join(' '),
+        category: '3D Design',
+        software: 'Unknown',
+        description: `3D model design project: ${modelFile.name}`,
+        image: null,
+        modelUrl: modelFile.path,
+        videoUrl: null,
+        tags: ['3D Design', 'CAD Modeling'],
+        featured: false,
+        year: new Date().getFullYear(),
+        modelFile,
+        hasModel: true,
+        specifications: {
+          complexity: 'Unknown',
+          fileSize: `${(modelFile.size / 1024 / 1024).toFixed(1)} MB`
+        },
+        technicalDetails: [
+          '3D model design and optimization',
+          'CAD modeling and assembly',
+          'File format: ' + modelFile.extension.toUpperCase()
+        ]
+      }
+      projects.push(genericProject)
+    }
+  })
+  
+  // Add projects that have metadata but no model files (for future models)
+  Object.entries(PROJECT_METADATA).forEach(([key, metadata]) => {
+    const hasModelFile = projects.some(p => p.id === metadata.id)
+    if (!hasModelFile) {
+      projects.push({
+        ...metadata,
+        modelUrl: null,
+        hasModel: false,
+        modelFile: null
+      })
+    }
+  })
+  
+  return projects.sort((a, b) => a.id - b.id)
+}
+
+/**
+ * Get project by ID
+ * @param {number} id - Project ID
+ * @returns {Object|null} Project object or null if not found
+ */
+export function getProjectById(id) {
+  const projects = generateProjectData()
+  return projects.find(project => project.id === parseInt(id)) || null
+}
+
+/**
+ * Get projects by category
+ * @param {string} category - Category name
+ * @returns {Array} Array of projects in the specified category
+ */
+export function getProjectsByCategory(category) {
+  const projects = generateProjectData()
+  if (category === 'all') return projects
+  return projects.filter(project => project.category === category)
+}
+
+/**
+ * Get projects by software
+ * @param {string} software - Software name
+ * @returns {Array} Array of projects using the specified software
+ */
+export function getProjectsBySoftware(software) {
+  const projects = generateProjectData()
+  if (software === 'all') return projects
+  return projects.filter(project => project.software === software)
+}
+
+/**
+ * Search projects by text
+ * @param {string} searchTerm - Search term
+ * @returns {Array} Array of matching projects
+ */
+export function searchProjects(searchTerm) {
+  const projects = generateProjectData()
+  const term = searchTerm.toLowerCase()
+  
+  return projects.filter(project => 
+    project.title.toLowerCase().includes(term) ||
+    project.description.toLowerCase().includes(term) ||
+    project.tags.some(tag => tag.toLowerCase().includes(term)) ||
+    project.software.toLowerCase().includes(term)
+  )
+}
+
+/**
+ * Get all available categories
+ * @returns {Array} Array of unique categories
+ */
+export function getCategories() {
+  const projects = generateProjectData()
+  const categories = [...new Set(projects.map(p => p.category))]
+  return ['all', ...categories]
+}
+
+/**
+ * Get all available software
+ * @returns {Array} Array of unique software
+ */
+export function getSoftware() {
+  const projects = generateProjectData()
+  const software = [...new Set(projects.map(p => p.software))]
+  return ['all', ...software]
+}
+
+/**
+ * Get featured projects
+ * @returns {Array} Array of featured projects
+ */
+export function getFeaturedProjects() {
+  const projects = generateProjectData()
+  return projects.filter(project => project.featured)
+}

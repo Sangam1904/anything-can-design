@@ -3,93 +3,24 @@ import Layout from '../../components/Layout'
 import { motion } from 'framer-motion'
 import { Search, Filter, Download, ExternalLink } from 'lucide-react'
 import ModelViewer from '../../components/ModelViewer'
+import ProjectDetailModal from '../../components/ProjectDetailModal'
+import { 
+  generateProjectData, 
+  getCategories, 
+  getSoftware, 
+  searchProjects 
+} from '../../utils/projectDiscovery'
 
 export default function Portfolio() {
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('all')
   const [selectedSoftware, setSelectedSoftware] = useState('all')
+  const [selectedProject, setSelectedProject] = useState(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
-  const projects = [
-    {
-      id: 1,
-      title: 'Hydrogen Bike Design',
-      category: 'Mechanical Design',
-      software: 'SOLIDWORKS',
-      description: 'Complete 3D modeling and assembly design of a hydrogen-powered motorcycle with detailed engineering analysis.',
-      image: null, // No image available, will show 3D model instead
-      modelUrl: '/models/hydrogen-bike.glb',
-      videoUrl: 'https://www.youtube.com/watch?v=example1',
-      tags: ['Assembly Design', 'Mechanical', 'Engineering Analysis'],
-      featured: true,
-      year: 2024
-    },
-    {
-      id: 2,
-      title: 'Solar Floating Plant',
-      category: 'Industrial Design',
-      software: 'CATIA',
-      description: 'Innovative solar panel floating system design with structural analysis and optimization.',
-      image: '/images/projects/solar-plant.jpg',
-      modelUrl: 'https://modelviewer.dev/shared-assets/models/Astronaut.glb', // Test model for now
-      videoUrl: 'https://www.youtube.com/watch?v=example2',
-      tags: ['Structural Analysis', 'Renewable Energy', 'Optimization'],
-      featured: true,
-      year: 2024
-    },
-    {
-      id: 3,
-      title: 'Drone Assembly',
-      category: 'Product Design',
-      software: 'SOLIDWORKS',
-      description: 'Complete drone design with aerodynamic optimization and manufacturing-ready components.',
-      image: '/images/projects/drone.jpg',
-      modelUrl: 'https://modelviewer.dev/shared-assets/models/Astronaut.glb', // Test model for now
-      videoUrl: 'https://www.youtube.com/watch?v=example3',
-      tags: ['Aerodynamics', 'Product Design', 'Manufacturing'],
-      featured: true,
-      year: 2023
-    },
-    {
-      id: 4,
-      title: 'Luxury Car Surfacing',
-      category: 'Surface Modeling',
-      software: 'CATIA',
-      description: 'High-end automotive surface modeling with complex curvature and aesthetic design.',
-      image: '/images/projects/car-surfacing.jpg',
-      modelUrl: 'https://modelviewer.dev/shared-assets/models/Astronaut.glb', // Test model for now
-      videoUrl: 'https://www.youtube.com/watch?v=example4',
-      tags: ['Surface Modeling', 'Automotive', 'Aesthetic Design'],
-      featured: true,
-      year: 2023
-    },
-    {
-      id: 5,
-      title: 'Smart Home Device',
-      category: 'Product Design',
-      software: 'SOLIDWORKS',
-      description: 'IoT smart home device with ergonomic design and user-friendly interface.',
-      image: '/images/projects/smart-device.jpg',
-      modelUrl: 'https://modelviewer.dev/shared-assets/models/Astronaut.glb', // Test model for now
-      tags: ['IoT', 'Ergonomic Design', 'User Interface'],
-      featured: false,
-      year: 2023
-    },
-    {
-      id: 6,
-      title: 'Industrial Robot Arm',
-      category: 'Mechanical Design',
-      software: 'CATIA',
-      description: 'Precision industrial robot arm with advanced kinematics and control systems.',
-      image: '/images/projects/robot-arm.jpg',
-      modelUrl: 'https://modelviewer.dev/shared-assets/models/Astronaut.glb', // Test model for now
-      tags: ['Robotics', 'Kinematics', 'Precision Engineering'],
-      featured: false,
-      year: 2023
-    }
-  ]
-
-  const categories = ['all', 'Mechanical Design', 'Industrial Design', 'Product Design', 'Surface Modeling']
-  const software = ['all', 'SOLIDWORKS', 'CATIA', 'Blender', 'ANSYS']
+  const projects = generateProjectData()
+  const categories = getCategories()
+  const software = getSoftware()
 
   // Filter projects
   const filteredProjects = projects.filter(project => {
@@ -102,6 +33,32 @@ export default function Portfolio() {
 
     return matchesSearch && matchesCategory && matchesSoftware
   })
+
+  // Modal handlers
+  const openProjectModal = (project) => {
+    setSelectedProject(project)
+    setIsModalOpen(true)
+  }
+
+  const closeProjectModal = () => {
+    setIsModalOpen(false)
+    setSelectedProject(null)
+  }
+
+  const nextProject = () => {
+    const currentIndex = filteredProjects.findIndex(p => p.id === selectedProject.id)
+    const nextIndex = (currentIndex + 1) % filteredProjects.length
+    setSelectedProject(filteredProjects[nextIndex])
+  }
+
+  const previousProject = () => {
+    const currentIndex = filteredProjects.findIndex(p => p.id === selectedProject.id)
+    const prevIndex = currentIndex === 0 ? filteredProjects.length - 1 : currentIndex - 1
+    setSelectedProject(filteredProjects[prevIndex])
+  }
+
+  const hasNext = selectedProject && filteredProjects.length > 1
+  const hasPrevious = selectedProject && filteredProjects.length > 1
 
   return (
     <Layout 
@@ -231,13 +188,13 @@ export default function Portfolio() {
                     {/* Overlay */}
                     <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                       <div className="flex space-x-4">
-                        <a 
-                          href={`/portfolio/${project.id}`}
+                        <button 
+                          onClick={() => openProjectModal(project)}
                           className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-colors duration-200"
                         >
                           <ExternalLink className="w-5 h-5 text-white" />
-                        </a>
-                        {project.modelUrl && (
+                        </button>
+                        {project.modelUrl && project.hasModel && (
                           <a 
                             href={project.modelUrl}
                             download
@@ -295,15 +252,15 @@ export default function Portfolio() {
 
                     {/* Action Buttons */}
                     <div className="flex items-center justify-between">
-                      <a 
-                        href={`/portfolio/${project.id}`}
+                      <button 
+                        onClick={() => openProjectModal(project)}
                         className="inline-flex items-center text-primary hover:text-primary/80 font-medium transition-colors duration-200 group"
                       >
                         View Details
                         <ExternalLink className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-200" />
-                      </a>
+                      </button>
                       
-                      {project.modelUrl && (
+                      {project.modelUrl && project.hasModel && (
                         <a 
                           href={project.modelUrl}
                           download
@@ -321,6 +278,17 @@ export default function Portfolio() {
           )}
         </div>
       </section>
+
+      {/* Project Detail Modal */}
+      <ProjectDetailModal
+        project={selectedProject}
+        isOpen={isModalOpen}
+        onClose={closeProjectModal}
+        onNext={nextProject}
+        onPrevious={previousProject}
+        hasNext={hasNext}
+        hasPrevious={hasPrevious}
+      />
     </Layout>
   )
 }
