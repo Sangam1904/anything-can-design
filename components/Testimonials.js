@@ -5,11 +5,11 @@ export default function Testimonials() {
   const testimonials = [
     {
       id: 1,
-      name: 'Sarah Johnson',
+      name: 'Basavaraj Biradar',
       company: 'Tech Innovations Inc.',
       role: 'Product Manager',
-      content: 'Anything Can Design transformed our concept into a stunning 3D model that exceeded our expectations. The attention to detail and professional communication made the entire process seamless.',
-      rating: 5,
+      content: 'Design Anything  transformed our concept into a stunning 3D model that exceeded our expectations. The attention to detail and professional communication made the entire process seamless.',
+      rating: 4.5,
       project: 'Smart Home Device Design'
     },
     {

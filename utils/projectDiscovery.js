@@ -163,40 +163,6 @@ const PROJECT_METADATA = {
       parts: '50+ components',
       analysis: 'Structural',
       application: 'Your Application'
-    }, // Hydrogen Bike - 
-    'hydrogen-bik235': {
-      id: 6,
-      title: 'Hydrogen Bike Design',
-      category: 'Mechanical Design',
-      software: 'SOLIDWORKS',
-      description: 'Complete 3D modeling and assembly design of a hydrogen-powered motorcycle with detailed engineering analysis.',
-      image: '/images/projects/hydrogen-bike.jpg',
-      gallery: [
-        '/images/projects/hydrogen-bike.jpg',
-        '/images/projects/hydrogen-bike-1.jpg',
-        '/images/projects/hydrogen-bike-2.jpg',
-        '/images/projects/hydrogen-bike-3.jpg',
-        '/images/projects/hydrogen-bike-4.jpg',
-        '/images/projects/hydrogen-bike-5.jpg'
-      ],
-      modelUrl: '/models/hydrogen-bike.glb',
-      videoUrl: 'https://www.youtube.com/watch?v=example1',
-      tags: ['Assembly Design', 'Mechanical', 'Engineering Analysis'],
-      featured: true,
-      year: 2024,
-      specifications: {
-        complexity: 'High',
-        parts: '150+ components',
-        analysis: 'Structural & Thermal',
-        manufacturing: 'Production Ready'
-      },
-      technicalDetails: [
-        'Complete assembly modeling with 150+ components',
-        'Structural analysis for load-bearing components',
-        'Thermal analysis for hydrogen storage system',
-        'Manufacturing-ready design with detailed drawings',
-        'Ergonomic design optimization for rider comfort'
-      ]
     },
     technicalDetails: [
       'Technical detail 1',
@@ -204,10 +170,34 @@ const PROJECT_METADATA = {
       'Technical detail 3',
       'Technical detail 4',
       'Technical detail 5',
-      'Technical detail 7',
-      'Technical detail 8',
-      'Technical detail 9',
-      'Technical detail 10'
+      
+      ]
+    },    
+  'your-new-model-2': {
+      id: 6,
+    title: 'Your New Model Title 2',
+    category: 'Mechanical Design',
+    software: 'SOLIDWORKS',
+    description: 'Detailed description of your new 3D model project.',
+    image: '/images/projects/your-new-model-2.jpg',
+    modelUrl: '/models/your-new-model-2.glb',
+    videoUrl: 'https://www.youtube.com/watch?v=your-video',
+    tags: ['Tag1', 'Tag2', 'Tag3'],
+    featured: true,
+    year: 2024,
+    specifications: {
+      complexity: 'Medium',
+      parts: '50+ components',
+      analysis: 'Structural',
+      application: 'Your Application'
+    },
+    technicalDetails: [
+      'Technical detail 1',
+      'Technical detail 2',
+      'Technical detail 3',
+      'Technical detail 4',
+      'Technical detail 5',
+      
       ]
     }
 }
@@ -227,7 +217,14 @@ const KNOWN_MODEL_FILES = [
     extension: '.glb',
     path: '/models/solar-plant.glb',
     size: 20039216 // 19.1 MB in bytes
-  }
+  },
+  {
+      filename: 'your-new-model-2.glb',
+      name: 'your-new-model-2',
+    extension: '.glb',
+    path: '/models/your-new-model-2.glb',
+    size: 10039216 // 9.6 MB in bytes
+  },
   // Add your new model here - EXAMPLE:
   // {
   //   filename: 'your-new-model.glb',
