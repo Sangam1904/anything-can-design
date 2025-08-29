@@ -1,3 +1,5 @@
+"use client"
+
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import ModelViewer from './ModelViewer'
@@ -77,12 +79,8 @@ export default function ThreeViewer({
       {/* 3D Model Viewer */}
       <div style={{ background: backgroundColor }}>
         <ModelViewer
-          src={modelUrl}
-          alt="3D Model"
+          modelPath={modelUrl}
           className="w-full h-full"
-          showControls={showControls}
-          autoRotate={autoRotate}
-          cameraControls={true}
           onLoad={handleLoad}
           onError={handleError}
         />

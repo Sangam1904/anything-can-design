@@ -1,9 +1,12 @@
+"use client"
+
 import { useState } from 'react'
 import Layout from '../../components/Layout'
 import { motion } from 'framer-motion'
 import { Search, Filter, Download, ExternalLink } from 'lucide-react'
 import dynamic from 'next/dynamic'
 import ProjectDetailModal from '../../components/ProjectDetailModal'
+import ModelPreloader from '../../components/ModelPreloader'
 
 // Dynamically import ModelViewer to avoid SSR issues
 const ModelViewer = dynamic(() => import('../../components/ModelViewer'), {
@@ -78,6 +81,8 @@ export default function Portfolio() {
       title="Portfolio"
       description="Explore our portfolio of CAD modeling, 3D design, and product animation projects. From mechanical design to surface modeling, see our expertise in action."
     >
+      {/* Preload all project models */}
+      <ModelPreloader projects={projects} />
       {/* Hero Section */}
       <section className="pt-20 pb-16 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-dark dark:to-gray-900">
         <div className="container-custom px-4 sm:px-6 lg:px-8">
@@ -179,6 +184,10 @@ export default function Portfolio() {
                       modelPath={project.modelUrl}
                       className="h-full"
                       height="h-64"
+                      showControls={false}
+                      autoRotate={true}
+                      onLoad={() => console.log('Model loaded:', project.title)}
+                      onError={(error) => console.error('Model loading error for', project.title, ':', error)}
                     />
                     
                     {/* Overlay */}

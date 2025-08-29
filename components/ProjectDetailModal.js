@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Download, ExternalLink, Calendar, Tag, Code, Info, ArrowLeft, ArrowRight } from 'lucide-react'
 import dynamic from 'next/dynamic'
+import ModelErrorBoundary from './ModelErrorBoundary'
 
 // Dynamically import ModelViewer to avoid SSR issues
 const ModelViewer = dynamic(() => import('./ModelViewer'), {
@@ -150,6 +151,10 @@ export default function ProjectDetailModal({
                 modelPath={project.modelUrl}
                 className="w-full h-full"
                 height="h-full"
+                showControls={true}
+                autoRotate={false}
+                onLoad={() => setIsModelLoaded(true)}
+                onError={(error) => console.error('Model loading error:', error)}
               />
             </div>
 

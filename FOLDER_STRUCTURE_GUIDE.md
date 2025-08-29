@@ -127,9 +127,9 @@ anything-can-design/
 
 ### Example Paths:
 ```
-D:\anything can design\public\images\portfolio\my-project.jpg
-D:\anything can design\public\models\my-model.glb
-D:\anything can design\public\downloads\my-file.pdf
+/public/images/portfolio/my-project.jpg
+/public/models/my-model.glb
+/public/downloads/my-file.pdf
 ```
 
 ---
