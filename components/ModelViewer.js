@@ -112,77 +112,10 @@ function Model({ modelPath, onLoad, onError, retryCount = 0, onRetry }) {
     setIsLoaded(false)
   }, [modelPath])
 
+  // Move useGLTF outside try-catch to follow React rules of hooks
+  let gltfResult = null
   try {
-    const { scene } = useGLTF(modelPath)
-    
-    // Process the model when it loads
-    useEffect(() => {
-      if (scene && !isLoaded) {
-        try {
-          // Store reference for cleanup
-          sceneRef.current = scene
-          
-          // Calculate bounding box
-          const box = new THREE.Box3().setFromObject(scene)
-          const center = box.getCenter(new THREE.Vector3())
-          const size = box.getSize(new THREE.Vector3())
-          
-          // Center the model
-          scene.position.sub(center)
-          
-          // Scale to fit in view
-          const maxDim = Math.max(size.x, size.y, size.z)
-          const scale = 4 / maxDim
-          scene.scale.setScalar(scale)
-          
-          setIsLoaded(true)
-          setHasError(false)
-          
-          // Update cache
-          modelCache.set(modelPath, { status: 'loaded', timestamp: Date.now() })
-          
-          if (onLoad) onLoad()
-        } catch (error) {
-          console.error('Error processing model:', error)
-          setHasError(true)
-          setErrorMessage('Error processing model')
-          if (onError) onError(error)
-        }
-      }
-    }, [scene, modelPath, isLoaded, onLoad, onError])
-
-    // Cleanup on unmount
-    useEffect(() => {
-      return () => {
-        if (sceneRef.current) {
-          // Dispose of geometries and materials
-          sceneRef.current.traverse((child) => {
-            if (child.geometry) {
-              child.geometry.dispose()
-            }
-            if (child.material) {
-              if (Array.isArray(child.material)) {
-                child.material.forEach(material => material.dispose())
-              } else {
-                child.material.dispose()
-              }
-            }
-          })
-        }
-      }
-    }, [])
-
-    if (hasError) {
-      return (
-        <ErrorFallback 
-          error={errorMessage} 
-          onRetry={onRetry}
-          retryCount={retryCount}
-        />
-      )
-    }
-
-    return <primitive object={scene} />
+    gltfResult = useGLTF(modelPath)
   } catch (error) {
     console.error('Error loading model:', error)
     return (
@@ -193,6 +126,88 @@ function Model({ modelPath, onLoad, onError, retryCount = 0, onRetry }) {
       />
     )
   }
+
+  // If useGLTF failed, show error
+  if (!gltfResult || !gltfResult.scene) {
+    return (
+      <ErrorFallback 
+        error="Failed to load model" 
+        onRetry={onRetry}
+        retryCount={retryCount}
+      />
+    )
+  }
+
+  const { scene } = gltfResult
+  
+  // Process the model when it loads
+  useEffect(() => {
+    if (scene && !isLoaded) {
+      try {
+        // Store reference for cleanup
+        sceneRef.current = scene
+        
+        // Calculate bounding box
+        const box = new THREE.Box3().setFromObject(scene)
+        const center = box.getCenter(new THREE.Vector3())
+        const size = box.getSize(new THREE.Vector3())
+        
+        // Center the model
+        scene.position.sub(center)
+        
+        // Scale to fit in view
+        const maxDim = Math.max(size.x, size.y, size.z)
+        const scale = 4 / maxDim
+        scene.scale.setScalar(scale)
+        
+        setIsLoaded(true)
+        setHasError(false)
+        
+        // Update cache
+        modelCache.set(modelPath, { status: 'loaded', timestamp: Date.now() })
+        
+        if (onLoad) onLoad()
+      } catch (error) {
+        console.error('Error processing model:', error)
+        setHasError(true)
+        setErrorMessage('Error processing model')
+        if (onError) onError(error)
+      }
+    }
+  }, [scene, modelPath, isLoaded, onLoad, onError])
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (sceneRef.current) {
+        // Dispose of geometries and materials
+        sceneRef.current.traverse((child) => {
+          if (child.geometry) {
+            child.geometry.dispose()
+          }
+          if (child.material) {
+            if (Array.isArray(child.material)) {
+              child.material.forEach(material => material.dispose())
+            } else {
+              child.material.dispose()
+            }
+          }
+        })
+      }
+    }
+  }, [])
+
+  if (hasError) {
+    return (
+      <ErrorFallback 
+        error={errorMessage} 
+        onRetry={onRetry}
+        retryCount={retryCount}
+      />
+    )
+  }
+
+  return <primitive object={scene} />
 }
 
 // Main ModelViewer component

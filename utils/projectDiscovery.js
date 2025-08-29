@@ -13,14 +13,9 @@ const PROJECT_METADATA = {
     category: 'Mechanical Design',
     software: 'SOLIDWORKS',
     description: 'Complete 3D modeling and assembly design of a hydrogen-powered motorcycle with detailed engineering analysis.',
-    image: '/images/projects/hydrogen-bike.jpg',
+    image: '/images/projects/p1.jpg', // Use existing image
     gallery: [
-      '/images/projects/hydrogen-bike.jpg',
-      '/images/projects/hydrogen-bike-1.jpg',
-      '/images/projects/hydrogen-bike-2.jpg',
-      '/images/projects/hydrogen-bike-3.jpg',
-      '/images/projects/hydrogen-bike-4.jpg',
-      '/images/projects/hydrogen-bike-5.jpg'
+      '/images/projects/p1.jpg' // Only use existing image
     ],
     modelUrl: '/models/hydrogen-bike.glb',
     videoUrl: 'https://www.youtube.com/watch?v=example1',
@@ -49,14 +44,9 @@ const PROJECT_METADATA = {
     category: 'Industrial Design',
     software: 'CATIA',
     description: 'Innovative solar panel floating system design with structural analysis and optimization.',
-    image: '/images/projects/solar-plant.jpg',
+    image: '/images/projects/p1.jpg', // Use existing image
     gallery: [
-      '/images/projects/solar-plant.jpg',
-      '/images/projects/solar-plant-1.jpg',
-      '/images/projects/solar-plant-2.jpg',
-      '/images/projects/solar-plant-3.jpg',
-      '/images/projects/solar-plant-4.jpg',
-      '/images/projects/solar-plant-5.jpg'
+      '/images/projects/p1.jpg' // Only use existing image
     ],
     modelUrl: '/models/solar-plant.glb',
     videoUrl: 'https://www.youtube.com/watch?v=example2',
@@ -85,12 +75,9 @@ const PROJECT_METADATA = {
     category: 'Product Design',
     software: 'SOLIDWORKS',
     description: 'Complete drone design with aerodynamic optimization and manufacturing-ready components.',
-    image: '/images/projects/drone.jpg',
+    image: '/images/projects/p1.jpg', // Use existing image
     gallery: [
-      '/images/projects/drone.jpg',
-      '/images/projects/drone-1.jpg',
-      '/images/projects/drone-2.jpg',
-      '/images/projects/drone-3.jpg'
+      '/images/projects/p1.jpg' // Only use existing image
     ],
     modelUrl: '/models/drone.glb',
     videoUrl: 'https://www.youtube.com/watch?v=example3',
@@ -98,17 +85,17 @@ const PROJECT_METADATA = {
     featured: true,
     year: 2023,
     specifications: {
-      complexity: 'Medium-High',
-      parts: '80+ components',
+      complexity: 'Medium',
+      parts: '50+ components',
       analysis: 'Aerodynamic & Structural',
-      application: 'Commercial UAV'
+      manufacturing: 'Production Ready'
     },
     technicalDetails: [
+      'Complete drone assembly with 50+ components',
       'Aerodynamic optimization for flight efficiency',
-      'Lightweight composite material selection',
-      'Modular design for easy maintenance',
-      'Payload optimization and balance',
-      'Manufacturing-ready component design'
+      'Structural analysis for load-bearing components',
+      'Manufacturing-ready design with detailed drawings',
+      'Modular design for easy maintenance and upgrades'
     ]
   },
   
@@ -119,11 +106,9 @@ const PROJECT_METADATA = {
     category: 'Surface Modeling',
     software: 'CATIA',
     description: 'High-end automotive surface modeling with complex curvature and aesthetic design.',
-    image: '/images/projects/car-surfacing.jpg',
+    image: '/images/projects/p1.jpg', // Use existing image
     gallery: [
-      '/images/projects/car-surfacing.jpg',
-      '/images/projects/car-surfacing-1.jpg',
-      '/images/projects/car-surfacing-2.jpg'
+      '/images/projects/p1.jpg' // Only use existing image
     ],
     modelUrl: '/models/car-surfacing.glb',
     videoUrl: 'https://www.youtube.com/watch?v=example4',
@@ -152,7 +137,7 @@ const PROJECT_METADATA = {
     category: 'Your Category',
     software: 'Your Software',
     description: 'Detailed description of your new 3D model project.',
-    image: '/images/projects/your-new-model.jpg',
+    image: '/images/projects/p1.jpg', // Use existing image
     modelUrl: '/models/your-new-model.glb',
     videoUrl: 'https://www.youtube.com/watch?v=your-video',
     tags: ['Tag1', 'Tag2', 'Tag3'],
@@ -179,7 +164,7 @@ const PROJECT_METADATA = {
     category: 'Mechanical Design',
     software: 'SOLIDWORKS',
     description: 'Detailed description of your new 3D model project.',
-    image: '/images/projects/your-new-model-2.jpg',
+    image: '/images/projects/p1.jpg', // Use existing image
     modelUrl: '/models/your-new-model-2.glb',
     videoUrl: 'https://www.youtube.com/watch?v=your-video',
     tags: ['Tag1', 'Tag2', 'Tag3'],
