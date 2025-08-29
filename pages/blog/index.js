@@ -70,7 +70,20 @@ export default function Blog() {
       category: 'Case Studies',
       image: '/images/blog/hydrogen-vehicles.jpg',
       slug: 'designing-hydrogen-powered-vehicles'
-    }
+    },
+    {
+      id: 7,
+      title: 'Designing Hydrogen-Powered Vehicles: Challenges and Solutions',
+      excerpt: 'Explore the unique challenges and innovative solutions in designing hydrogen-powered transportation systems.',
+      author: 'Sangam',
+      date: '2023-12-15',
+      readTime: '14 min read',
+      category: 'Case Studies',
+      image: '/images/blog/hydrogen-vehicles.jpg',
+      slug: 'designing-hydrogen-powered-vehicles'
+    },
+    
+   
   ]
 
   const categories = ['All', 'CAD Tutorials', 'Industry Insights', 'Animation', 'Simulation', 'Case Studies']
