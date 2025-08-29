@@ -15,7 +15,9 @@ export default function Downloads() {
       date: '2024-01-15',
       author: 'Sangam',
       image: '/images/downloads/hydrogen-bike.jpg',
+      
       fileUrl: '/downloads/hydrogen-bike-assembly.zip',
+      
       tags: ['Assembly', 'Mechanical', 'SOLIDWORKS']
     },
     {

@@ -169,9 +169,12 @@ export default function PortfolioPreview() {
           viewport={{ once: true }}
           className="text-center"
         >
-          <Link href="/portfolio" className="btn-primary group">
+          <Link 
+            href="/portfolio"
+            className="inline-flex items-center px-6 py-3 rounded-lg bg-primary text-white hover:bg-primary/90 transition-colors duration-200 shadow-md"
+          >
             View All Projects
-            <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-200" />
+            <ArrowRight className="w-5 h-5 ml-2" />
           </Link>
         </motion.div>
       </div>

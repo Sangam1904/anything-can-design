@@ -115,32 +115,6 @@ export default function ServicesOverview() {
             </motion.div>
           ))}
         </div>
-
-        {/* CTA Section */}
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          viewport={{ once: true }}
-          className="text-center mt-16"
-        >
-          <div className="bg-gradient-to-r from-primary to-accent rounded-2xl p-8 lg:p-12 text-white">
-            <h3 className="text-3xl lg:text-4xl font-playfair font-bold mb-4">
-              Ready to Start Your Project?
-            </h3>
-            <p className="text-xl mb-8 text-white/90 max-w-2xl mx-auto">
-              Let's discuss your design requirements and create something amazing together.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/contact" className="btn-secondary">
-                Get Free Quote
-              </Link>
-              <Link href="/portfolio" className="btn-outline border-white text-white hover:bg-white hover:text-primary">
-                View Portfolio
-              </Link>
-            </div>
-          </div>
-        </motion.div>
       </div>
     </section>
   )

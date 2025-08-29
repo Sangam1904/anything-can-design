@@ -14,6 +14,7 @@ const PROJECT_METADATA = {
     software: 'SOLIDWORKS',
     description: 'Complete 3D modeling and assembly design of a hydrogen-powered motorcycle with detailed engineering analysis.',
     image: '/images/projects/hydrogen-bike.jpg',
+    modelUrl: '/models/hydrogen-bike.glb',
     videoUrl: 'https://www.youtube.com/watch?v=example1',
     tags: ['Assembly Design', 'Mechanical', 'Engineering Analysis'],
     featured: true,
@@ -41,6 +42,7 @@ const PROJECT_METADATA = {
     software: 'CATIA',
     description: 'Innovative solar panel floating system design with structural analysis and optimization.',
     image: '/images/projects/solar-plant.jpg',
+    modelUrl: '/models/solar-plant.glb',
     videoUrl: 'https://www.youtube.com/watch?v=example2',
     tags: ['Structural Analysis', 'Renewable Energy', 'Optimization'],
     featured: true,
@@ -68,6 +70,7 @@ const PROJECT_METADATA = {
     software: 'SOLIDWORKS',
     description: 'Complete drone design with aerodynamic optimization and manufacturing-ready components.',
     image: '/images/projects/drone.jpg',
+    modelUrl: '/models/drone.glb',
     videoUrl: 'https://www.youtube.com/watch?v=example3',
     tags: ['Aerodynamics', 'Product Design', 'Manufacturing'],
     featured: true,
@@ -95,76 +98,51 @@ const PROJECT_METADATA = {
     software: 'CATIA',
     description: 'High-end automotive surface modeling with complex curvature and aesthetic design.',
     image: '/images/projects/car-surfacing.jpg',
+    modelUrl: '/models/car-surfacing.glb',
     videoUrl: 'https://www.youtube.com/watch?v=example4',
     tags: ['Surface Modeling', 'Automotive', 'Aesthetic Design'],
     featured: true,
     year: 2023,
     specifications: {
-      complexity: 'Very High',
-      surfaces: 'Class A',
-      analysis: 'Aesthetic & Aerodynamic',
-      industry: 'Automotive'
+      complexity: 'High',
+      surfaces: 'Complex Curvature',
+      quality: 'Class A',
+      application: 'Luxury Automotive'
     },
     technicalDetails: [
-      'Class A surface modeling for automotive standards',
-      'Complex curvature design for aerodynamic efficiency',
-      'Aesthetic optimization for luxury market',
+      'Complex surface modeling with Class A quality',
+      'Aesthetic design optimization',
       'Manufacturing feasibility analysis',
-      'Surface continuity and quality validation'
+      'Surface continuity and curvature analysis',
+      'Design for manufacturing considerations'
     ]
   },
   
-  // Smart Home Device - existing project
-  'smart-device': {
+  // Add your new project metadata here - EXAMPLE:
+  'your-new-model': {
     id: 5,
-    title: 'Smart Home Device',
-    category: 'Product Design',
-    software: 'SOLIDWORKS',
-    description: 'IoT smart home device with ergonomic design and user-friendly interface.',
-    image: '/images/projects/smart-device.jpg',
-    videoUrl: 'https://www.youtube.com/watch?v=example5',
-    tags: ['IoT', 'Ergonomic Design', 'User Interface'],
-    featured: false,
-    year: 2023,
+    title: 'Your New Model Title',
+    category: 'Your Category',
+    software: 'Your Software',
+    description: 'Detailed description of your new 3D model project.',
+    image: '/images/projects/your-new-model.jpg',
+    modelUrl: '/models/your-new-model.glb',
+    videoUrl: 'https://www.youtube.com/watch?v=your-video',
+    tags: ['Tag1', 'Tag2', 'Tag3'],
+    featured: true,
+    year: 2024,
     specifications: {
       complexity: 'Medium',
-      parts: '25+ components',
-      analysis: 'Ergonomic & Thermal',
-      market: 'Consumer IoT'
+      parts: '50+ components',
+      analysis: 'Structural',
+      application: 'Your Application'
     },
     technicalDetails: [
-      'Ergonomic design for user comfort',
-      'Thermal management for electronic components',
-      'User interface integration design',
-      'Manufacturing cost optimization',
-      'Assembly-friendly design approach'
-    ]
-  },
-  
-  // Robot Arm - existing project
-  'robot-arm': {
-    id: 6,
-    title: 'Industrial Robot Arm',
-    category: 'Mechanical Design',
-    software: 'CATIA',
-    description: 'Precision industrial robot arm with advanced kinematics and control systems.',
-    image: '/images/projects/robot-arm.jpg',
-    videoUrl: 'https://www.youtube.com/watch?v=example6',
-    tags: ['Robotics', 'Kinematics', 'Precision Engineering'],
-    featured: false,
-    year: 2023,
-    specifications: {
-      complexity: 'Very High',
-      parts: '200+ components',
-      analysis: 'Kinematic & Structural',
-      application: 'Industrial Automation'
-    },
-    technicalDetails: [
-      'Advanced kinematic chain design',
-      'Precision bearing and joint optimization',
-      'Structural analysis for load capacity',
-      'Control system integration design',
-      'Safety and reliability engineering'
+      'Technical detail 1',
+      'Technical detail 2',
+      'Technical detail 3',
+      'Technical detail 4',
+      'Technical detail 5'
     ]
   }
 }
@@ -176,8 +154,23 @@ const KNOWN_MODEL_FILES = [
     name: 'hydrogen-bike',
     extension: '.glb',
     path: '/models/hydrogen-bike.glb',
-    size: 73728000 // 70.3 MB in bytes
+    size: 73669932 // 70.3 MB in bytes
+  },
+  {
+    filename: 'solar-plant.glb',
+    name: 'solar-plant',
+    extension: '.glb',
+    path: '/models/solar-plant.glb',
+    size: 20039216 // 19.1 MB in bytes
   }
+  // Add your new model here - EXAMPLE:
+  // {
+  //   filename: 'your-new-model.glb',
+  //   name: 'your-new-model',
+  //   extension: '.glb',
+  //   path: '/models/your-new-model.glb',
+  //   size: 52428800 // 50 MB in bytes (replace with actual file size)
+  // }
 ]
 
 /**

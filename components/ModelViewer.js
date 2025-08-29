@@ -17,6 +17,9 @@ export default function ModelViewer({
   const [isLoading, setIsLoading] = useState(true)
   const [hasError, setHasError] = useState(false)
   const [scriptLoaded, setScriptLoaded] = useState(false)
+  const [availableAnimations, setAvailableAnimations] = useState([])
+  const [selectedAnimation, setSelectedAnimation] = useState('')
+  const [isPaused, setIsPaused] = useState(false)
 
   useEffect(() => {
     // Load model-viewer script if not already loaded
@@ -66,11 +69,66 @@ export default function ModelViewer({
     loadModelViewerScript()
   }, [])
 
+  // Bind native events from the <model-viewer> custom element
+  useEffect(() => {
+    if (!scriptLoaded || !modelRef.current) return
+
+    const el = modelRef.current
+    el.addEventListener('load', handleModelLoad)
+    el.addEventListener('error', handleModelError)
+    el.addEventListener('progress', handleProgress)
+
+    return () => {
+      el.removeEventListener('load', handleModelLoad)
+      el.removeEventListener('error', handleModelError)
+      el.removeEventListener('progress', handleProgress)
+    }
+  }, [scriptLoaded])
+
+  // Ensure imperative properties are applied to the custom element
+  useEffect(() => {
+    if (!scriptLoaded || !modelRef.current) return
+    const el = modelRef.current
+    try {
+      // Set properties directly on the element to guarantee behavior
+      el.src = src
+      el.cameraControls = cameraControls
+      el.autoRotate = autoRotate
+      el.shadowIntensity = shadowIntensity
+      el.exposure = exposure
+      el.environmentImage = environmentImage
+      el.interactionPrompt = 'none'
+      // Improve interaction responsiveness
+      el.disableZoom = false
+      el.enablePan = true
+    } catch (e) {
+      // ignore
+    }
+  }, [scriptLoaded, src, cameraControls, autoRotate, shadowIntensity, exposure, environmentImage])
+
   const handleModelLoad = () => {
     console.log('3D model loaded successfully:', src)
     setIsLoaded(true)
     setIsLoading(false)
     setHasError(false)
+
+    // Capture available animations (if any)
+    try {
+      if (modelRef.current && Array.isArray(modelRef.current.availableAnimations)) {
+        const anims = modelRef.current.availableAnimations
+        setAvailableAnimations(anims)
+        if (anims.length > 0) {
+          setSelectedAnimation(anims[0])
+          // Autoplay the first animation if autoRotate is enabled
+          if (autoRotate && modelRef.current.play) {
+            modelRef.current.play({ animationName: anims[0] })
+            setIsPaused(false)
+          }
+        }
+      }
+    } catch (e) {
+      // no-op if API changes
+    }
   }
 
   const handleModelError = (error) => {
@@ -132,27 +190,13 @@ export default function ModelViewer({
     >
       <model-viewer
         ref={modelRef}
-        src={src}
         alt={alt}
-        auto-rotate={autoRotate}
-        camera-controls={cameraControls}
-        shadow-intensity={shadowIntensity}
-        exposure={exposure}
-        environment-image={environmentImage}
         camera-orbit="45deg 55deg 2.5m"
         min-camera-orbit="auto auto 1m"
         max-camera-orbit="auto auto 10m"
         field-of-view="30deg"
         loading="eager"
         reveal="auto"
-        ar
-        ar-modes="webxr scene-viewer quick-look"
-        ar-scale="auto"
-        ar-placement="floor"
-        ar-button
-        onLoad={handleModelLoad}
-        onError={handleModelError}
-        onProgress={handleProgress}
         className="w-full h-full rounded-lg"
         style={{
           '--poster-color': 'transparent',
@@ -169,35 +213,76 @@ export default function ModelViewer({
 
         {/* Custom controls */}
         {showControls && isLoaded && (
-          <div className="absolute bottom-4 right-4 flex flex-col space-y-2">
-            <button
-              onClick={() => {
-                if (modelRef.current) {
-                  modelRef.current.cameraOrbit = '45deg 55deg 2.5m'
-                }
-              }}
-              className="w-10 h-10 bg-white/80 backdrop-blur-sm rounded-lg flex items-center justify-center hover:bg-white transition-colors duration-200 shadow-lg"
-              title="Reset Camera"
-            >
-              <svg className="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-              </svg>
-            </button>
-            
-            <button
-              onClick={() => {
-                if (modelRef.current) {
-                  modelRef.current.autoRotate = !modelRef.current.autoRotate
-                }
-              }}
-              className="w-10 h-10 bg-white/80 backdrop-blur-sm rounded-lg flex items-center justify-center hover:bg-white transition-colors duration-200 shadow-lg"
-              title="Toggle Auto Rotate"
-            >
-              <svg className="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-              </svg>
-            </button>
-          </div>
+          <>
+            {/* Right-side camera controls */}
+            <div className="absolute bottom-4 right-4 flex flex-col space-y-2">
+              <button
+                onClick={() => {
+                  if (modelRef.current) {
+                    modelRef.current.cameraOrbit = '45deg 55deg 2.5m'
+                  }
+                }}
+                className="w-10 h-10 bg-white/80 backdrop-blur-sm rounded-lg flex items-center justify-center hover:bg-white transition-colors duration-200 shadow-lg"
+                title="Reset Camera"
+              >
+                <svg className="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+              </button>
+              
+              <button
+                onClick={() => {
+                  if (modelRef.current) {
+                    modelRef.current.autoRotate = !modelRef.current.autoRotate
+                  }
+                }}
+                className="w-10 h-10 bg-white/80 backdrop-blur-sm rounded-lg flex items-center justify-center hover:bg-white transition-colors duration-200 shadow-lg"
+                title="Toggle Auto Rotate"
+              >
+                <svg className="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Bottom-left animation controls (if any) */}
+            {availableAnimations.length > 0 && (
+              <div className="absolute bottom-4 left-4 bg-black/50 text-white text-xs px-3 py-2 rounded-lg backdrop-blur-sm flex items-center space-x-2">
+                <button
+                  onClick={() => {
+                    if (!modelRef.current) return
+                    if (isPaused) {
+                      modelRef.current.play({ animationName: selectedAnimation })
+                      setIsPaused(false)
+                    } else {
+                      modelRef.current.pause()
+                      setIsPaused(true)
+                    }
+                  }}
+                  className="px-2 py-1 bg-white/20 rounded hover:bg-white/30"
+                >
+                  {isPaused ? 'Play' : 'Pause'}
+                </button>
+
+                <select
+                  value={selectedAnimation}
+                  onChange={(e) => {
+                    const name = e.target.value
+                    setSelectedAnimation(name)
+                    if (modelRef.current && name) {
+                      modelRef.current.play({ animationName: name })
+                      setIsPaused(false)
+                    }
+                  }}
+                  className="bg-white/10 border border-white/20 rounded px-2 py-1"
+                >
+                  {availableAnimations.map((a) => (
+                    <option key={a} value={a}>{a}</option>
+                  ))}
+                </select>
+              </div>
+            )}
+          </>
         )}
 
         {/* AR Button */}

@@ -388,32 +388,7 @@ export default function Services() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-16 bg-gradient-to-r from-primary to-accent">
-        <div className="container-custom px-4 sm:px-6 lg:px-8 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-3xl lg:text-4xl font-playfair font-bold mb-6 text-white">
-              Ready to Start Your Project?
-            </h2>
-            <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-              Get a free consultation and quote for your project. No obligation, just expert advice.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a href="/contact" className="btn-secondary">
-                Get Free Quote
-              </a>
-              <a href="/portfolio" className="btn-outline border-white text-white hover:bg-white hover:text-primary">
-                View Portfolio
-              </a>
-            </div>
-          </motion.div>
-        </div>
-      </section>
+      {/* CTA removed as requested */}
     </Layout>
   )
 }

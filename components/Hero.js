@@ -1,8 +1,10 @@
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowRight, Play, Download } from 'lucide-react'
+import { useRef } from 'react'
 
 export default function Hero() {
+  const videoRef = useRef(null)
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 dark:from-dark dark:to-gray-900">
       {/* Background Pattern */}
@@ -61,21 +63,22 @@ export default function Hero() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
-            className="relative max-w-2xl mx-auto"
+            className="relative max-w-[50rem] mx-auto"
           >
             <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-              <div className="aspect-video bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
-                <div className="text-center text-white">
-                  <Play className="w-16 h-16 mx-auto mb-4 text-secondary" />
-                  <p className="text-lg font-medium">Watch Our Work in Action</p>
-                  <p className="text-gray-300 text-sm">Latest 3D animations and CAD designs</p>
-                </div>
+              <div className="aspect-video bg-gradient-to-br from-gray-800 to-gray-900">
+                <video
+                  ref={videoRef}
+                  className="w-full h-full object-cover"
+                  src="/videos/product-animation.mp4"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                >
+                  Your browser does not support the video tag.
+                </video>
               </div>
-              <button className="absolute inset-0 flex items-center justify-center bg-black/20 hover:bg-black/40 transition-colors duration-300">
-                <div className="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-colors duration-300">
-                  <Play className="w-8 h-8 text-white ml-1" />
-                </div>
-              </button>
             </div>
           </motion.div>
 
