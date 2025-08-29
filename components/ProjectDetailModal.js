@@ -1,7 +1,20 @@
 import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Download, ExternalLink, Calendar, Tag, Code, Info, ArrowLeft, ArrowRight } from 'lucide-react'
-import ThreeViewer from './ThreeViewer'
+import dynamic from 'next/dynamic'
+
+// Dynamically import ModelViewer to avoid SSR issues
+const ModelViewer = dynamic(() => import('./ModelViewer'), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-full bg-gray-800 dark:bg-gray-900 rounded-lg flex items-center justify-center">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-2"></div>
+        <p className="text-gray-400 text-sm">Loading 3D viewer...</p>
+      </div>
+    </div>
+  )
+})
 
 export default function ProjectDetailModal({
   project,
@@ -133,28 +146,11 @@ export default function ProjectDetailModal({
           <div className="flex flex-col lg:flex-row h-[calc(95vh-120px)]">
             {/* 3D Model Section */}
             <div className="lg:w-2/3 h-[28rem] lg:h-full bg-gray-50 dark:bg-gray-800">
-              {project.hasModel ? (
-                <ThreeViewer
-                  modelUrl={project.modelUrl}
-                  className="w-full h-full"
-                  autoRotate={true}
-                  showControls={true}
-                  onLoad={() => setIsModelLoaded(true)}
-                  onError={(error) => console.error('Model loading error:', error)}
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center bg-gray-100 dark:bg-gray-800">
-                  <div className="text-center text-gray-500 dark:text-gray-400">
-                    <div className="w-24 h-24 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-                      </svg>
-                    </div>
-                    <p className="text-lg font-medium mb-2">3D Model Coming Soon</p>
-                    <p className="text-sm">This project's 3D model is being prepared</p>
-                  </div>
-                </div>
-              )}
+              <ModelViewer
+                modelPath={project.modelUrl}
+                className="w-full h-full"
+                height="h-full"
+              />
             </div>
 
             {/* Project Information Section */}

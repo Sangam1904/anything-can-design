@@ -9,7 +9,7 @@ export default function Testimonials() {
       company: 'Tech Innovations Inc.',
       role: 'Product Manager',
       content: 'Design Anything  transformed our concept into a stunning 3D model that exceeded our expectations. The attention to detail and professional communication made the entire process seamless.',
-      rating: 4.5,
+      rating: 4,
       project: 'Smart Home Device Design'
     },
     {

@@ -4,6 +4,114 @@ This file shows you exactly how to add your own content to the website with real
 
 ---
 
+## 🚀 NEW: Admin Dashboard for Easy Content Management
+
+### Step 1: Access the Admin Panel
+1. Go to: `http://localhost:3000/admin`
+2. Enter the password: `admin123` (you can change this in the code)
+3. You'll see a form to add new projects
+
+### Step 2: Add a New Project via Admin
+Fill out the form with your project details:
+
+**Required Fields:**
+- **Project Title:** "My Amazing 3D Model"
+- **Short Description:** "A detailed mechanical assembly designed in SOLIDWORKS"
+- **Detailed Description:** "This project showcases advanced CAD modeling techniques..."
+- **Software Used:** "SOLIDWORKS, ANSYS"
+- **Key Tags:** "Mechanical, Assembly, Analysis"
+- **Technical Information:** "Material: Steel, Weight: 2.5kg, Dimensions: 200x150x100mm"
+- **Specifications:** "Tolerance: ±0.1mm, Surface Finish: Ra 1.6"
+
+**File Uploads:**
+- **Thumbnail Image URL:** `/images/portfolio/my-project-thumb.jpg`
+- **GLTF/GLB Model URL:** `/models/my-project.glb`
+- **STEP File URL:** `/downloads/my-project.step`
+- **Gallery Images:** `/images/portfolio/my-project-1.jpg, /images/portfolio/my-project-2.jpg`
+
+### Step 3: File Preparation
+Before using the admin panel, prepare your files:
+
+1. **3D Models:** Place in `public/models/`
+   - `my-project.glb` (for 3D viewer)
+   - `my-project.gltf` (alternative format)
+
+2. **Images:** Place in `public/images/portfolio/`
+   - `my-project-thumb.jpg` (thumbnail, 400x300px)
+   - `my-project-1.jpg` (gallery image 1)
+   - `my-project-2.jpg` (gallery image 2)
+
+3. **STEP Files:** Place in `public/downloads/`
+   - `my-project.step` (for CAD downloads)
+
+### Step 4: Save and View
+1. Click "Save Project" in the admin panel
+2. Your project is automatically added to the portfolio
+3. Visit `http://localhost:3000/portfolio` to see your new project
+4. Click on it to view the interactive 3D model and gallery
+
+---
+
+## 🎮 Interactive 3D Model Viewer (Portfolio Only)
+
+### Step 1: 3D Model Integration
+The 3D Model Viewer is now **exclusively integrated in the Portfolio section**:
+
+1. **Portfolio Grid:** Each project card shows a 3D model preview
+2. **Project Detail Modal:** Full-screen 3D model viewer with controls
+3. **Admin-Only Upload:** Models are pre-uploaded by admin, no public uploads
+
+### Step 2: Model Viewer Features
+- **OrbitControls:** Rotate, zoom, and pan with mouse
+- **Auto-resize:** Responsive to container size
+- **HDRI Environment:** Realistic lighting and shadows
+- **Loading States:** Smooth loading with spinners
+- **Fallback:** "3D model not available" for projects without models
+
+### Step 3: Data Structure
+Projects use this structure for 3D models:
+
+```javascript
+{
+  "title": "Hydrogen Bike Design",
+  "category": "Mechanical Design", 
+  "software": "SOLIDWORKS",
+  "year": 2024,
+  "modelUrl": "/models/hydrogen-bike.glb",  // 3D model path
+  "image": "/images/portfolio/hydrogen-bike.jpg",  // Thumbnail
+  "gallery": [
+    "/images/portfolio/hydrogen-bike-1.jpg",
+    "/images/portfolio/hydrogen-bike-2.jpg"
+  ]
+}
+```
+
+### Step 4: Model Viewer Usage
+The ModelViewer component is used like this:
+
+```javascript
+// In Portfolio Grid
+<ModelViewer 
+  modelPath={project.modelUrl}
+  className="h-full"
+  height="h-64"
+/>
+
+// In Project Detail Modal  
+<ModelViewer
+  modelPath={project.modelUrl}
+  className="w-full h-full"
+  height="h-full"
+/>
+```
+
+### Step 5: Supported Formats
+- **GLB (.glb):** Binary format, recommended for web
+- **GLTF (.gltf):** Text format with external resources
+- **File size:** Keep under 10MB for best performance
+
+---
+
 ## 📝 Example 1: Adding Your Logo
 
 ### Step 1: Prepare Your Logo
@@ -27,33 +135,44 @@ Open `components/Navbar.js` and replace the logo section:
 {/* OPTION 2: Image-based Logo */}
 <img 
   src="/images/logo.png" 
-  alt="Anything Can Design" 
+  alt="DesignAnything" 
   className="h-8 w-auto"
 />
 ```
 
 ---
 
-## 🎮 Example 2: Adding a 3D Model Project
+## 🎮 Example 2: Adding a 3D Model Project (Manual Method)
 
 ### Step 1: Prepare Your Files
 1. **3D Model:** Save as `public/models/my-project.glb`
 2. **Project Image:** Save as `public/images/portfolio/my-project.jpg`
 
-### Step 2: Add to Portfolio
-Open `pages/portfolio/index.js` and add to the `projects` array:
+### Step 2: Add to Portfolio (Alternative to Admin Panel)
+Open `utils/projectDiscovery.js` and add to the `PROJECT_METADATA` array:
 
 ```javascript
 {
-  id: 7, // Use next available number
+  id: 'my-custom-project',
   title: 'My Custom Project',
   category: 'Product Design',
   software: 'Fusion 360',
   description: 'This is my amazing project description that showcases my skills.',
+  detailedDescription: 'Detailed technical information about the project...',
   image: '/images/portfolio/my-project.jpg',
-  modelUrl: '/models/my-project.glb',
+  modelUrl: '/models/my-project.glb',  // 3D model path
+  stepUrl: '/downloads/my-project.step',
   videoUrl: 'https://www.youtube.com/watch?v=your-video',
   tags: ['Custom Tag', 'Design', 'Innovation'],
+  technicalInfo: 'Material: Aluminum, Weight: 1.2kg',
+  specifications: [
+    { key: 'Dimensions', value: '150x100x50mm' },
+    { key: 'Tolerance', value: '±0.05mm' }
+  ],
+  gallery: [
+    '/images/portfolio/my-project-1.jpg',
+    '/images/portfolio/my-project-2.jpg'
+  ],
   featured: true,
   year: 2024
 }
@@ -100,202 +219,242 @@ const team = [
 
 ---
 
-## 🎨 Example 4: Changing Colors
+## 🎥 Example 4: Adding a Video to Hero Section
 
-### Step 1: Choose Your Colors
-Open `tailwind.config.js` and update the colors:
+### Step 1: Prepare Your Video
+- Save your video as: `public/videos/product-animation.mp4`
+- Recommended format: MP4
+- Recommended size: Under 10MB for fast loading
+
+### Step 2: Update Hero Component
+The video is already configured in `components/Hero.js`. Just replace the video file:
+
+1. Delete: `public/videos/product-animation.mp4`
+2. Add your video with the same name: `public/videos/product-animation.mp4`
+
+The video will automatically:
+- Play on page load
+- Loop continuously
+- Be responsive
+- Have rounded corners and shadow
+
+---
+
+## 📊 Example 5: Updating Contact Information
+
+### Step 1: Update Contact Details
+Open `pages/contact.js` and modify the `contactInfo` array:
+
+```javascript
+const contactInfo = [
+  {
+    icon: Mail,
+    title: 'Email',
+    value: 'your-email@gmail.com', // Change this
+    link: 'mailto:your-email@gmail.com'
+  },
+  {
+    icon: Phone,
+    title: 'Phone',
+    value: '+91 1234567890', // Change this
+    link: 'tel:+911234567890'
+  },
+  {
+    icon: MapPin,
+    title: 'Location',
+    value: 'Your City, India', // Change this
+    link: '#'
+  }
+]
+```
+
+### Step 2: Update Social Links
+In the same file, update the social links:
+
+```javascript
+const socialLinks = [
+  {
+    name: 'YouTube',
+    url: 'https://youtube.com/your-channel',
+    icon: Youtube
+  },
+  {
+    name: 'LinkedIn',
+    url: 'https://linkedin.com/company/your-company',
+    icon: Linkedin
+  },
+  {
+    name: 'Instagram',
+    url: 'https://instagram.com/your-handle',
+    icon: Instagram
+  },
+  {
+    name: 'Pinterest',
+    url: 'https://pinterest.com/your-profile',
+    icon: Pin
+  }
+]
+```
+
+---
+
+## 🔧 Example 6: Customizing Colors and Styling
+
+### Step 1: Update Brand Colors
+Open `tailwind.config.js` and modify the colors:
 
 ```javascript
 colors: {
-  primary: '#1F2937',    // Your primary color
-  secondary: '#F59E0B',  // Your secondary color
-  accent: '#3B82F6',     // Your accent color
-  dark: '#111827',       // Dark mode background
-  light: '#FFFFFF',      // Light mode background
-}
-```
-
-### Step 2: Test Changes
-1. Save the file
-2. Refresh your browser
-3. All elements using these colors will update automatically
-
----
-
-## 📝 Example 5: Updating Hero Text
-
-### Step 1: Change Main Heading
-Open `components/Hero.js` and find:
-
-```javascript
-<h1 className="text-5xl md:text-7xl font-playfair font-bold text-white mb-6">
-  Design Anything, <br />
-  <span className="text-secondary">Build Everything</span>
-</h1>
-```
-
-Change to:
-```javascript
-<h1 className="text-5xl md:text-7xl font-playfair font-bold text-white mb-6">
-  Your Custom Heading, <br />
-  <span className="text-secondary">Your Custom Subheading</span>
-</h1>
-```
-
-### Step 2: Change Subtitle
-Find:
-```javascript
-<p className="text-xl text-gray-300 mb-8 max-w-2xl">
-  We transform ideas into reality through innovative design and engineering solutions.
-</p>
-```
-
-Change to:
-```javascript
-<p className="text-xl text-gray-300 mb-8 max-w-2xl">
-  Your custom subtitle that describes your business and services.
-</p>
-```
-
----
-
-## 📊 Example 6: Adding a New Service
-
-### Step 1: Update Services Overview
-Open `components/ServicesOverview.js` and add to the `services` array:
-
-```javascript
-{
-  icon: <Box className="w-8 h-8" />,
-  title: 'Your New Service',
-  description: 'Description of your new service offering.',
-  features: ['Feature 1', 'Feature 2', 'Feature 3'],
-  price: 'Starting from $500'
-}
-```
-
-### Step 2: Update Detailed Services
-Open `pages/services.js` and add a new service section:
-
-```javascript
-{
-  title: 'Your New Service',
-  description: 'Detailed description of your service.',
-  features: [
-    'Comprehensive analysis',
-    'Detailed documentation',
-    'Technical support'
-  ],
-  software: ['Software 1', 'Software 2'],
-  process: [
-    'Step 1: Initial consultation',
-    'Step 2: Design phase',
-    'Step 3: Review and approval',
-    'Step 4: Final delivery'
-  ],
-  pricing: {
-    basic: '$500',
-    standard: '$1000',
-    premium: '$2000'
+  primary: {
+    50: '#eff6ff',
+    500: '#3b82f6', // Your primary blue
+    600: '#2563eb',
+    700: '#1d4ed8'
+  },
+  secondary: {
+    50: '#f0fdf4',
+    500: '#22c55e', // Your secondary green
+    600: '#16a34a',
+    700: '#15803d'
   }
 }
 ```
 
+### Step 2: Update CSS Variables
+Open `styles/globals.css` and modify:
+
+```css
+:root {
+  --primary: #3b82f6; /* Your primary color */
+  --secondary: #22c55e; /* Your secondary color */
+  --accent: #f59e0b; /* Your accent color */
+}
+```
+
 ---
 
-## 📥 Example 7: Adding Downloadable Files
+## 📱 Example 7: Adding Mobile-Specific Features
 
-### Step 1: Add Your Files
-- Save files in: `public/downloads/`
-- Examples: `public/downloads/cad-model.step`, `public/downloads/report.pdf`
-
-### Step 2: Update Downloads Page
-Open `pages/downloads.js` and add to the `downloads` array:
+### Step 1: Responsive Images
+For better mobile performance, use different image sizes:
 
 ```javascript
+// In your project data
 {
-  id: 5,
-  title: 'Your CAD Model',
-  description: 'Description of your downloadable file.',
-  category: 'CAD Models',
-  fileType: 'STEP',
-  fileSize: '2.5 MB',
-  downloadCount: 150,
-  downloadUrl: '/downloads/cad-model.step'
+  image: '/images/portfolio/my-project.jpg',
+  imageMobile: '/images/portfolio/my-project-mobile.jpg', // Smaller version
+  imageTablet: '/images/portfolio/my-project-tablet.jpg'  // Medium version
 }
 ```
 
+### Step 2: Mobile-Optimized 3D Models
+- Keep GLB files under 5MB for mobile
+- Use compressed textures
+- Test on actual mobile devices
+
 ---
 
-## 🔧 Example 8: Updating Contact Information
+## 🚀 Quick Start Checklist
 
-### Step 1: Update Footer
-Open `components/Footer.js` and find the contact section:
+### Before Adding Content:
+- [ ] Install dependencies: `npm install`
+- [ ] Start development server: `npm run dev`
+- [ ] Test the admin panel: `http://localhost:3000/admin`
+- [ ] Prepare your files in the `public/` folder
 
+### For Each New Project:
+- [ ] Create 3D model (.glb/.gltf)
+- [ ] Create thumbnail image (400x300px)
+- [ ] Create gallery images (1200x800px)
+- [ ] Create STEP file for downloads
+- [ ] Use admin panel or manual method to add project
+- [ ] Test 3D viewer functionality in portfolio
+- [ ] Test mobile responsiveness
+
+### For Website Customization:
+- [ ] Update logo and branding
+- [ ] Update contact information
+- [ ] Update social media links
+- [ ] Customize colors in Tailwind config
+- [ ] Test all pages and functionality
+
+---
+
+## 🆘 Troubleshooting
+
+### Common Issues:
+
+**3D Model Not Loading:**
+- Check file format (.glb/.gltf)
+- Check file size (keep under 10MB)
+- Check file path (must start with `/`)
+- Check browser console for errors
+
+**Admin Panel Not Working:**
+- Clear browser cache
+- Check localStorage in browser dev tools
+- Verify password is correct
+- Check for JavaScript errors
+
+**Images Not Displaying:**
+- Check file paths start with `/`
+- Check file exists in `public/` folder
+- Check file format (JPG, PNG, WebP)
+- Check file permissions
+
+**Performance Issues:**
+- Compress images (use WebP format)
+- Compress 3D models
+- Use lazy loading for images
+- Test on different devices
+
+---
+
+## 📞 Need Help?
+
+If you encounter any issues:
+1. Check the browser console for errors
+2. Verify all file paths are correct
+3. Ensure files are in the right folders
+4. Test with smaller files first
+5. Check the documentation in other .md files
+
+The website is designed to be user-friendly and easy to customize. Start with the admin panel for the easiest content management experience!
+
+---
+
+## 🎯 **IMPORTANT: 3D Model Viewer Integration**
+
+### **Component Placement:**
+- ✅ **Portfolio Grid:** Each project card shows 3D model preview
+- ✅ **Project Detail Modal:** Full-screen 3D model viewer
+- ✅ **Admin-Only:** Models pre-uploaded, no public uploads
+- ✅ **Home Page:** Clean, no 3D viewer (as requested)
+
+### **Data Flow:**
 ```javascript
-<div className="space-y-4">
-  <h3 className="text-lg font-semibold text-white">Contact Info</h3>
-  <div className="space-y-2 text-gray-300">
-    <p>📍 Your Address, City, State</p>
-    <p>📞 +91 98765 43210</p>
-    <p>✉️ info@anythingcandesign.com</p>
-  </div>
-</div>
-```
-
-### Step 2: Update Contact Page
-Open `pages/contact.js` and update:
-
-```javascript
-const contactInfo = {
-  phone: '+91 98765 43210',
-  email: 'info@anythingcandesign.com',
-  address: 'Your Address, City, State, PIN',
-  hours: 'Mon-Fri: 9AM-6PM'
+// Project data structure
+{
+  title: "Hydrogen Bike Design",
+  modelUrl: "/models/hydrogen-bike.glb",  // 3D model path
+  image: "/images/portfolio/hydrogen-bike.jpg",  // Thumbnail
+  // ... other fields
 }
+
+// ModelViewer usage
+<ModelViewer 
+  modelPath={project.modelUrl}  // Pass model path
+  className="h-full"
+  height="h-64"
+/>
 ```
 
----
+### **Features:**
+- ✅ **OrbitControls:** Rotate, zoom, pan
+- ✅ **Auto-resize:** Responsive to container
+- ✅ **HDRI Environment:** Realistic lighting
+- ✅ **Loading States:** Smooth loading
+- ✅ **Fallback:** "3D model not available" message
+- ✅ **Admin-Only Upload:** Secure model management
 
-## 🚀 Quick Test Checklist
-
-After making changes:
-
-1. **Save all files** (Ctrl+S)
-2. **Check terminal** for any errors
-3. **Refresh browser** (Ctrl+F5)
-4. **Test all pages** that you modified
-5. **Check mobile view** (F12 → Mobile device)
-6. **Verify 3D models** load correctly
-7. **Test contact form** functionality
-
----
-
-## 🆘 Common Issues & Solutions
-
-### Images Not Showing
-- ✅ Check file path: `/images/your-file.jpg`
-- ✅ Ensure file exists in correct folder
-- ✅ Use lowercase file names
-- ✅ Check file format (JPG, PNG, WebP)
-
-### 3D Models Not Loading
-- ✅ Check file path: `/models/your-model.glb`
-- ✅ Ensure .glb/.gltf format
-- ✅ Check file size (under 10MB)
-- ✅ Verify model file is not corrupted
-
-### Colors Not Updating
-- ✅ Save `tailwind.config.js`
-- ✅ Clear browser cache (Ctrl+F5)
-- ✅ Restart development server (`npm run dev`)
-
-### Text Not Changing
-- ✅ Save the file after editing
-- ✅ Check for typos in file names
-- ✅ Ensure you're editing the correct file
-- ✅ Refresh browser after changes
-
----
-
-**💡 Pro Tip:** Start with small changes and test frequently. This way, if something goes wrong, you'll know exactly what caused it!
+The 3D Model Viewer is now perfectly integrated into the Portfolio section with all the requested features!
