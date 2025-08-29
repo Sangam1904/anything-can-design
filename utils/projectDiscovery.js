@@ -273,6 +273,21 @@ export function generateProjectData() {
       })
     }
   })
+
+  // Merge admin-saved projects from localStorage (client only)
+  if (typeof window !== 'undefined') {
+    try {
+      const adminProjects = JSON.parse(localStorage.getItem('admin_projects') || '[]')
+      if (Array.isArray(adminProjects)) {
+        adminProjects.forEach(p => {
+          projects.push({
+            ...p,
+            hasModel: !!p.modelUrl
+          })
+        })
+      }
+    } catch {}
+  }
   
   return projects.sort((a, b) => a.id - b.id)
 }
