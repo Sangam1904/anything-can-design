@@ -48,13 +48,13 @@ export default function Navbar({ darkMode, setDarkMode }) {
             {/* 
             <img 
               src="/images/logo.png" 
-              alt="Anything Can Design" 
+              alt="DesignAnything" 
               className="h-8 w-auto"
             />
             */}
             
             <span className="font-playfair text-xl font-bold text-primary dark:text-white">
-              Anything Can Design
+              DesignAnything
             </span>
           </Link>
 

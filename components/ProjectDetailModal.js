@@ -15,6 +15,8 @@ export default function ProjectDetailModal({
   // ALL HOOKS MUST BE CALLED UNCONDITIONALLY AT THE TOP LEVEL
   const [activeTab, setActiveTab] = useState('overview')
   const [isModelLoaded, setIsModelLoaded] = useState(false)
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false)
+  const [lightboxIndex, setLightboxIndex] = useState(0)
 
   // Define callbacks unconditionally
   const handleKeyDown = useCallback((e) => {
@@ -32,6 +34,8 @@ export default function ProjectDetailModal({
     if (project?.id) {
       setActiveTab('overview')
       setIsModelLoaded(false)
+      setIsLightboxOpen(false)
+      setLightboxIndex(0)
     }
   }, [project?.id])
 
@@ -57,6 +61,12 @@ export default function ProjectDetailModal({
     { id: 'specifications', label: 'Specifications', icon: Tag }
   ]
 
+  const galleryImages = (() => {
+    if (project?.gallery && project.gallery.length) return project.gallery
+    if (project?.image) return new Array(6).fill(project.image)
+    return []
+  })()
+
   return (
     <AnimatePresence>
       <motion.div
@@ -71,7 +81,7 @@ export default function ProjectDetailModal({
           animate={{ scale: 1, opacity: 1, y: 0 }}
           exit={{ scale: 0.9, opacity: 0, y: 20 }}
           transition={{ type: "spring", damping: 25, stiffness: 300 }}
-          className="relative w-full max-w-7xl max-h-[90vh] bg-white dark:bg-gray-900 rounded-2xl shadow-2xl overflow-hidden"
+          className="relative w-full max-w-[90rem] max-h-[95vh] bg-white dark:bg-gray-900 rounded-2xl shadow-2xl overflow-hidden"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}
@@ -120,9 +130,9 @@ export default function ProjectDetailModal({
           </div>
 
           {/* Content */}
-          <div className="flex flex-col lg:flex-row h-[calc(90vh-120px)]">
+          <div className="flex flex-col lg:flex-row h-[calc(95vh-120px)]">
             {/* 3D Model Section */}
-            <div className="lg:w-2/3 h-96 lg:h-full bg-gray-50 dark:bg-gray-800">
+            <div className="lg:w-2/3 h-[28rem] lg:h-full bg-gray-50 dark:bg-gray-800">
               {project.hasModel ? (
                 <ThreeViewer
                   modelUrl={project.modelUrl}
@@ -148,7 +158,7 @@ export default function ProjectDetailModal({
             </div>
 
             {/* Project Information Section */}
-            <div className="lg:w-1/3 flex flex-col h-96 lg:h-full">
+            <div className="lg:w-1/3 flex flex-col h-[28rem] lg:h-full">
               {/* Tabs */}
               <div className="flex border-b border-gray-200 dark:border-gray-700">
                 {tabs.map((tab) => {
@@ -174,6 +184,25 @@ export default function ProjectDetailModal({
               <div className="flex-1 overflow-y-auto p-6">
                 {activeTab === 'overview' && (
                   <div className="space-y-6">
+                    {/* Gallery */}
+                    {galleryImages.length > 0 && (
+                      <div>
+                        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Project Gallery</h3>
+                        <div className="flex space-x-3 overflow-x-auto pb-2">
+                          {galleryImages.map((img, idx) => (
+                            <button
+                              key={idx}
+                              onClick={() => { setIsLightboxOpen(true); setLightboxIndex(idx) }}
+                              className="flex-shrink-0 w-28 h-20 rounded-lg overflow-hidden bg-gray-200 dark:bg-gray-700 hover:ring-2 hover:ring-primary transition"
+                              aria-label={`Open image ${idx + 1}`}
+                            >
+                              {/* eslint-disable-next-line @next/next/no-img-element */}
+                              <img src={img} alt="Project image" className="w-full h-full object-cover" />
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                     {/* Basic Info */}
                     <div>
                       <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
@@ -311,6 +340,40 @@ export default function ProjectDetailModal({
           </div>
         </motion.div>
       </motion.div>
+      {/* Lightbox */}
+      {isLightboxOpen && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/90" onClick={() => setIsLightboxOpen(false)}>
+          <div className="relative max-w-5xl w-full px-6" onClick={(e) => e.stopPropagation()}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={galleryImages[lightboxIndex]} alt="Project large" className="w-full max-h-[80vh] object-contain rounded-lg" />
+            {/* Nav */}
+            {galleryImages.length > 1 && (
+              <div className="absolute inset-y-0 left-0 right-0 flex items-center justify-between px-2">
+                <button
+                  onClick={() => setLightboxIndex((lightboxIndex - 1 + galleryImages.length) % galleryImages.length)}
+                  className="p-2 bg-white/20 hover:bg-white/30 rounded-full text-white"
+                  aria-label="Previous image"
+                >
+                  ‹
+                </button>
+                <button
+                  onClick={() => setLightboxIndex((lightboxIndex + 1) % galleryImages.length)}
+                  className="p-2 bg-white/20 hover:bg-white/30 rounded-full text-white"
+                  aria-label="Next image"
+                >
+                  ›
+                </button>
+              </div>
+            )}
+            <button
+              onClick={() => setIsLightboxOpen(false)}
+              className="absolute top-3 right-3 px-3 py-1 bg-white/20 hover:bg-white/30 rounded text-white"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </AnimatePresence>
   )
 }

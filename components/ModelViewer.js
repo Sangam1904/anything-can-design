@@ -197,6 +197,7 @@ export default function ModelViewer({
         field-of-view="30deg"
         loading="eager"
         reveal="auto"
+        crossorigin="anonymous"
         className="w-full h-full rounded-lg"
         style={{
           '--poster-color': 'transparent',

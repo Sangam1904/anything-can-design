@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Facebook, Twitter, Instagram, Linkedin, Youtube, Mail, Phone, MapPin } from 'lucide-react'
+import { Pin, Instagram, Linkedin, Youtube, Mail, Phone, MapPin } from 'lucide-react'
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
@@ -26,11 +26,10 @@ export default function Footer() {
   }
 
   const socialLinks = [
-    { name: 'LinkedIn', icon: Linkedin, href: 'https://linkedin.com/company/anything-can-design' },
-    { name: 'YouTube', icon: Youtube, href: 'https://youtube.com/@anythingcandesign' },
-    { name: 'Instagram', icon: Instagram, href: 'https://instagram.com/anythingcandesign' },
-    { name: 'Facebook', icon: Facebook, href: 'https://facebook.com/anythingcandesign' },
-    { name: 'Twitter', icon: Twitter, href: 'https://twitter.com/anythingcandesign' },
+    { name: 'LinkedIn', icon: Linkedin, href: 'https://www.linkedin.com/company/designanything/' },
+    { name: 'YouTube', icon: Youtube, href: 'https://www.youtube.com/channel/UCeKbTkZ2z_Rx-6f6uEUroMw' },
+    { name: 'Instagram', icon: Instagram, href: 'https://www.instagram.com/_designanything_/' },
+    { name: 'Pinterest', icon: Pin, href: 'https://in.pinterest.com/Designanything1904/' },
   ]
 
   return (
@@ -43,7 +42,7 @@ export default function Footer() {
               <div className="w-10 h-10 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-lg">ACD</span>
               </div>
-              <span className="font-playfair text-xl font-bold">Anything Can Design</span>
+              <span className="font-playfair text-xl font-bold">DesignAnything</span>
             </div>
             <p className="text-gray-300 mb-6 leading-relaxed">
               Transforming ideas into reality through expert engineering design. 
@@ -54,11 +53,11 @@ export default function Footer() {
             <div className="space-y-3">
               <div className="flex items-center space-x-3 text-gray-300">
                 <Mail className="w-5 h-5 text-secondary" />
-                <span>hello@anythingcandesign.com</span>
+                <span>anythingcandesign@gmail.com</span>
               </div>
               <div className="flex items-center space-x-3 text-gray-300">
                 <Phone className="w-5 h-5 text-secondary" />
-                <span>+91 98765 43210</span>
+                <span>+91 7498441756</span>
               </div>
               <div className="flex items-center space-x-3 text-gray-300">
                 <MapPin className="w-5 h-5 text-secondary" />
@@ -159,7 +158,7 @@ export default function Footer() {
         <div className="border-t border-gray-800 mt-8 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <p className="text-gray-400 text-sm">
-              © {currentYear} Anything Can Design. All rights reserved.
+              © {currentYear} DesignAnything. All rights reserved.
             </p>
             <div className="flex space-x-6 text-sm">
               <Link href="/privacy" className="text-gray-400 hover:text-secondary transition-colors duration-200">

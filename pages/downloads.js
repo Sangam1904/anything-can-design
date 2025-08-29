@@ -9,14 +9,14 @@ export default function Downloads() {
       title: 'Hydrogen Bike Assembly Model',
       description: 'Complete SOLIDWORKS assembly of hydrogen-powered motorcycle with all components and engineering drawings.',
       category: 'CAD Models',
-      fileType: 'SOLIDWORKS',
+      fileType: 'STEP',
       fileSize: '45.2 MB',
-      downloads: 234,
-      date: '2024-01-15',
+      downloads: 20,
+      date: '2025-08-15',
       author: 'Sangam',
       image: '/images/downloads/hydrogen-bike.jpg',
       
-      fileUrl: '/downloads/hydrogen-bike-assembly.zip',
+      fileUrl: '/downloads/hydrogen-bike-assembly.step',
       
       tags: ['Assembly', 'Mechanical', 'SOLIDWORKS']
     },
@@ -28,7 +28,7 @@ export default function Downloads() {
       fileType: 'CATIA',
       fileSize: '32.8 MB',
       downloads: 189,
-      date: '2024-01-10',
+      date: '2025-08-10',
       author: 'Sangam',
       image: '/images/downloads/solar-plant.jpg',
       fileUrl: '/downloads/solar-floating-plant.zip',
@@ -41,9 +41,9 @@ export default function Downloads() {
       category: 'Technical Reports',
       fileType: 'PDF',
       fileSize: '8.5 MB',
-      downloads: 156,
-      date: '2024-01-05',
-      author: 'Rahul',
+      downloads: 10,
+      date: '2025-08-05',
+      author: 'Abhi Raut',
       image: '/images/downloads/drone-report.jpg',
       fileUrl: '/downloads/drone-design-report.pdf',
       tags: ['Technical', 'Documentation', 'Analysis']
@@ -71,7 +71,7 @@ export default function Downloads() {
       fileSize: '12.1 MB',
       downloads: 445,
       date: '2023-12-20',
-      author: 'Anjali',
+      author: 'Abhi Jagtap',
       image: '/images/downloads/3d-printing-guide.jpg',
       fileUrl: '/downloads/3d-printing-guide.pdf',
       tags: ['3D Printing', 'Design Guide', 'Manufacturing']
@@ -85,7 +85,7 @@ export default function Downloads() {
       fileSize: '23.7 MB',
       downloads: 167,
       date: '2023-12-15',
-      author: 'Rahul',
+      author: 'Sangam',
       image: '/images/downloads/ansys-templates.jpg',
       fileUrl: '/downloads/ansys-templates.zip',
       tags: ['Simulation', 'ANSYS', 'Templates']
@@ -97,7 +97,7 @@ export default function Downloads() {
   return (
     <Layout 
       title="Downloads"
-      description="Download CAD models, technical reports, design guides, and simulation templates from Anything Can Design. Free resources for engineers and designers."
+      description="Download CAD models, technical reports, design guides, and simulation templates from DesignAnything. Free resources for engineers and designers."
     >
       {/* Hero Section */}
       <section className="pt-20 pb-16 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-dark dark:to-gray-900">

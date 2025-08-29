@@ -25,10 +25,15 @@ export default function Contact() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setIsSubmitting(true)
-    
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 2000))
-    
+    try {
+      // Send via mailto as a zero-backend fallback
+      const subject = `New Project Inquiry from ${formData.name}`
+      const body = `Name: ${formData.name}%0D%0AEmail: ${formData.email}%0D%0ACompany: ${formData.company}%0D%0AProject Type: ${formData.projectType}%0D%0ABudget: ${formData.budget}%0D%0A%0D%0ADetails:%0D%0A${encodeURIComponent(formData.message)}`
+      const mailto = `mailto:anythingcandesign@gmail.com?subject=${encodeURIComponent(subject)}&body=${body}`
+      window.location.href = mailto
+      await new Promise(resolve => setTimeout(resolve, 1000))
+    } catch {}
+
     setIsSubmitting(false)
     setIsSubmitted(true)
     
@@ -50,16 +55,16 @@ export default function Contact() {
     {
       icon: Mail,
       title: 'Email Us',
-      details: 'hello@anythingcandesign.com',
+      details: 'anythingcandesign@gmail.com',
       description: 'Get a detailed quote and project discussion',
-      action: 'mailto:hello@anythingcandesign.com'
+      action: 'mailto:anythingcandesign@gmail.com'
     },
     {
       icon: Phone,
       title: 'Call Us',
-      details: '+91 98765 43210',
+      details: '+91 7498441756',
       description: 'Speak directly with our team',
-      action: 'tel:+919876543210'
+      action: 'tel:+917498441756'
     },
     {
       icon: MapPin,
@@ -88,18 +93,19 @@ export default function Contact() {
   ]
 
   const budgetRanges = [
-    'Under $500',
-    '$500 - $1,000',
-    '$1,000 - $2,500',
-    '$2,500 - $5,000',
-    '$5,000 - $10,000',
-    '$10,000+'
+    'Under ₹1,200',
+    '₹1,200 - ₹2,500',
+    '₹2,500 - ₹5,000',
+    '₹5,000 - ₹10,000',
+    '₹10,000 - ₹15,000',
+    '₹15,000 - ₹20,000',
+    '₹20,000+'
   ]
 
   return (
     <Layout 
       title="Contact Us"
-      description="Get in touch with Anything Can Design for your CAD modeling, 3D design, and product animation needs. Free consultation available."
+      description="Get in touch with DesignAnything for your CAD modeling, 3D design, and product animation needs. Free consultation available."
     >
       {/* Hero Section */}
       <section className="pt-20 pb-16 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-dark dark:to-gray-900">

@@ -15,6 +15,10 @@ const nextConfig = {
         },
       },
     });
+    // Workaround Windows ENOENT rename cache errors by disabling persistent cache in dev
+    if (process.env.NODE_ENV === 'development') {
+      config.cache = false
+    }
     return config;
   },
 }

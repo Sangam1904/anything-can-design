@@ -78,7 +78,7 @@ export default function Blog() {
   return (
     <Layout 
       title="Blog"
-      description="Read our latest articles on CAD modeling, 3D design, product animation, and engineering insights. Expert tutorials and industry knowledge from Anything Can Design."
+      description="Read our latest articles on CAD modeling, 3D design, product animation, and engineering insights. Expert tutorials and industry knowledge from DesignAnything."
     >
       {/* Hero Section */}
       <section className="pt-20 pb-16 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-dark dark:to-gray-900">

@@ -51,10 +51,10 @@ export default function CTASection() {
               <h3 className="text-xl font-semibold mb-2">Email Us</h3>
               <p className="text-white/80 mb-4">Get a detailed quote</p>
               <a 
-                href="mailto:hello@anythingcandesign.com" 
+                href="mailto:anythingcandesign@gmail.com" 
                 className="text-secondary hover:text-secondary/80 font-medium transition-colors duration-200"
               >
-                hello@anythingcandesign.com
+                anythingcandesign@gmail.com
               </a>
             </div>
 
@@ -65,12 +65,12 @@ export default function CTASection() {
               <h3 className="text-xl font-semibold mb-2">Call Us</h3>
               <p className="text-white/80 mb-4">Speak directly</p>
               <a 
-                href="tel:+919876543210" 
+                href="tel:+917498441756 " 
                 className="text-secondary hover:text-secondary/80 font-medium transition-colors duration-200"
               >
-                +91 98765 43210
+                +91 7498441756
               </a>
-            </div>
+            </div>        
 
             <div className="text-center">
               <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-4">

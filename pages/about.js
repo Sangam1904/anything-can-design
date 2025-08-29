@@ -37,7 +37,7 @@ export default function About() {
   return (
     <Layout 
       title="About Us"
-      description="Learn about Anything Can Design - a professional CAD modeling and 3D design company. Meet our team and discover our mission to transform ideas into reality."
+      description="Learn about  Design  Anything - a professional CAD modeling and 3D design company. Meet our team and discover our mission to transform ideas into reality."
     >
       {/* Hero Section */}
       <section className="pt-20 pb-16 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-dark dark:to-gray-900">

@@ -1,7 +1,7 @@
 {
   "name": "anything-can-design",
   "version": "1.0.0",
-  "description": "Portfolio website for Anything Can Design - CAD modeling, 3D design, and product animation services",
+  "description": "Portfolio website for DesignAnything - CAD modeling, 3D design, and product animation services",
   "private": true,
   "scripts": {
     "dev": "next dev",

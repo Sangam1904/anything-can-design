@@ -1,6 +1,6 @@
-# Anything Can Design - Portfolio Website
+# DesignAnything - Portfolio Website
 
-A professional portfolio website for Anything Can Design, showcasing CAD modeling, 3D design, and product animation services. Built with Next.js, Tailwind CSS, and featuring 3D model viewer support.
+A professional portfolio website for DesignAnything, showcasing CAD modeling, 3D design, and product animation services. Built with Next.js, Tailwind CSS, and featuring 3D model viewer support.
 
 ## 🚀 Features
 
@@ -27,8 +27,8 @@ A professional portfolio website for Anything Can Design, showcasing CAD modelin
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/anything-can-design.git
-   cd anything-can-design
+   git clone https://github.com/yourusername/designanything.git
+   cd designanything
    ```
 
 2. **Install dependencies**
@@ -114,7 +114,7 @@ anything-can-design/
 
 3. **Custom Domain**
    - In Vercel dashboard, go to Settings → Domains
-   - Add your custom domain (e.g., anythingcandesign.com)
+   - Add your custom domain (e.g., designanything.com)
    - Update DNS settings as instructed
 
 ### Other Platforms
@@ -210,8 +210,8 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ## 🆘 Support
 
 For support and questions:
-- Email: hello@anythingcandesign.com
-- Website: https://anythingcandesign.com
+- Email: hello@designanything.com
+- Website: https://designanything.com
 
 ## 🙏 Acknowledgments
 
@@ -223,4 +223,4 @@ For support and questions:
 
 ---
 
-Built with ❤️ by Anything Can Design
+Built with ❤️ by DesignAnything

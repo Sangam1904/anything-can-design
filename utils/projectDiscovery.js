@@ -14,6 +14,14 @@ const PROJECT_METADATA = {
     software: 'SOLIDWORKS',
     description: 'Complete 3D modeling and assembly design of a hydrogen-powered motorcycle with detailed engineering analysis.',
     image: '/images/projects/hydrogen-bike.jpg',
+    gallery: [
+      '/images/projects/hydrogen-bike.jpg',
+      '/images/projects/hydrogen-bike-1.jpg',
+      '/images/projects/hydrogen-bike-2.jpg',
+      '/images/projects/hydrogen-bike-3.jpg',
+      '/images/projects/hydrogen-bike-4.jpg',
+      '/images/projects/hydrogen-bike-5.jpg'
+    ],
     modelUrl: '/models/hydrogen-bike.glb',
     videoUrl: 'https://www.youtube.com/watch?v=example1',
     tags: ['Assembly Design', 'Mechanical', 'Engineering Analysis'],
@@ -42,6 +50,14 @@ const PROJECT_METADATA = {
     software: 'CATIA',
     description: 'Innovative solar panel floating system design with structural analysis and optimization.',
     image: '/images/projects/solar-plant.jpg',
+    gallery: [
+      '/images/projects/solar-plant.jpg',
+      '/images/projects/solar-plant-1.jpg',
+      '/images/projects/solar-plant-2.jpg',
+      '/images/projects/solar-plant-3.jpg',
+      '/images/projects/solar-plant-4.jpg',
+      '/images/projects/solar-plant-5.jpg'
+    ],
     modelUrl: '/models/solar-plant.glb',
     videoUrl: 'https://www.youtube.com/watch?v=example2',
     tags: ['Structural Analysis', 'Renewable Energy', 'Optimization'],
@@ -70,6 +86,12 @@ const PROJECT_METADATA = {
     software: 'SOLIDWORKS',
     description: 'Complete drone design with aerodynamic optimization and manufacturing-ready components.',
     image: '/images/projects/drone.jpg',
+    gallery: [
+      '/images/projects/drone.jpg',
+      '/images/projects/drone-1.jpg',
+      '/images/projects/drone-2.jpg',
+      '/images/projects/drone-3.jpg'
+    ],
     modelUrl: '/models/drone.glb',
     videoUrl: 'https://www.youtube.com/watch?v=example3',
     tags: ['Aerodynamics', 'Product Design', 'Manufacturing'],
@@ -98,6 +120,11 @@ const PROJECT_METADATA = {
     software: 'CATIA',
     description: 'High-end automotive surface modeling with complex curvature and aesthetic design.',
     image: '/images/projects/car-surfacing.jpg',
+    gallery: [
+      '/images/projects/car-surfacing.jpg',
+      '/images/projects/car-surfacing-1.jpg',
+      '/images/projects/car-surfacing-2.jpg'
+    ],
     modelUrl: '/models/car-surfacing.glb',
     videoUrl: 'https://www.youtube.com/watch?v=example4',
     tags: ['Surface Modeling', 'Automotive', 'Aesthetic Design'],

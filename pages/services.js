@@ -138,7 +138,7 @@ export default function Services() {
   return (
     <Layout 
       title="Services"
-      description="Professional CAD modeling, 3D design, product animation, rendering, and simulation services. Transform your ideas into reality with Anything Can Design."
+      description="Professional CAD modeling, 3D design, product animation, rendering, and simulation services. Transform your ideas into reality with DesignAnything."
     >
       {/* Hero Section */}
       <section className="pt-20 pb-16 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-dark dark:to-gray-900">
@@ -292,7 +292,7 @@ export default function Services() {
               className="card p-8 text-center"
             >
               <h3 className="text-2xl font-semibold mb-4 text-gray-800 dark:text-white">Basic</h3>
-              <div className="text-4xl font-bold text-primary mb-6">$500+</div>
+              <div className="text-4xl font-bold text-primary mb-6">₹1,200</div>
               <ul className="space-y-3 mb-8">
                 <li className="flex items-center justify-center space-x-2">
                   <CheckCircle className="w-5 h-5 text-secondary" />
@@ -325,7 +325,7 @@ export default function Services() {
                 <span className="bg-primary text-white px-4 py-1 rounded-full text-sm font-medium">Most Popular</span>
               </div>
               <h3 className="text-2xl font-semibold mb-4 text-gray-800 dark:text-white">Professional</h3>
-              <div className="text-4xl font-bold text-primary mb-6">$1,500+</div>
+              <div className="text-4xl font-bold text-primary mb-6">₹2,500+</div>
               <ul className="space-y-3 mb-8">
                 <li className="flex items-center justify-center space-x-2">
                   <CheckCircle className="w-5 h-5 text-secondary" />
